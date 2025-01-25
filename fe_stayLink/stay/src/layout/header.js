@@ -1,14 +1,18 @@
 import '../css/header.css';
-import React from 'react';
+import React,{useState}from 'react';
 import mypageImage from '../img/white_user.png';
 import readingImage from '../img/돋보기.png';
 import heartImage from '../img/white_heart.png';
 import reserveImage from '../img/white_schedule.png';
 import viewImage from '../img/white_marker.png';
 import loginImage from '../img/white_login.png';
+import logoutImage from '../img/white_logout.png';
 import { Link } from 'react-router-dom'
 
+
+
 function Header() {
+  const [login,setLogin] = useState(false);
   return (
     <div className="header">
       <div className='header-container'>
@@ -28,7 +32,17 @@ function Header() {
           />
         </div>
         <div className='mypage-conpainer'>
-          <div className='login'>
+          {login ?(
+             <div className='logout'>
+               <div>
+                 <img src={logoutImage} alt='로그아웃 이미지' />
+               </div>
+               <div>
+                 <span>로그아웃</span>
+               </div>
+           </div>):
+           (
+            <div className='login'>
             <Link to='/login' >
               <div>
                 <img src={loginImage} alt='로그인 이미지' />
@@ -38,6 +52,8 @@ function Header() {
               </div>
             </Link>
           </div>
+          )}
+         
           <div className='mypage'>
             <Link to='/mypage' >
               <div>

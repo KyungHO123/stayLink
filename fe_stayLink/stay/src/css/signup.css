@@ -72,3 +72,21 @@
     color: white;
   
 }
+.signup-id>button{
+    height: 38px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius:10px ;
+    border: none;
+    border: 1px solid lightgray;
+    border-left: none;
+    background: none;
+    width: 30%;
+  
+}
+.signup-id>button:hover{
+    background: linear-gradient(to right, #a18cd1, #fbc2eb);
+    cursor: pointer;
+    border: 1px solid #a18cd1;
+    color: white;
+  
+}

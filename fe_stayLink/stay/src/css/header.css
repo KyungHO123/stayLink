@@ -68,7 +68,7 @@
 .mypage-conpainer > div:last-child{
   margin-right: 0;
 }
-.mypage ,.login,.favorite,.reserve,.view{
+.mypage ,.logout,.login,.favorite,.reserve,.view{
   margin-right: 50px;
   text-align: center;
 }
