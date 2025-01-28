@@ -4,13 +4,15 @@
 }
 .signup-container{
     display: flex;
-    padding: 40px 35%;
+    justify-content: center;
+    margin: 50px 0;
 
 }
 .signup-form{
+    border-radius: 15px;
     width: 800px;
     text-align: center;
-    padding: 30px;
+    padding:35px 80px;
     margin: auto;
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, .1);
    
@@ -21,10 +23,10 @@
 }
 .signup-form >div>input{
     
-    width: 100%;
+    width: 97%;
     font-size: 14px;
     padding: 10px;
-    margin-bottom: 30px;
+    
     outline: none;
     border-radius: 10px;
     border: none;
@@ -72,6 +74,7 @@
     color: white;
   
 }
+
 .signup-id>button{
     height: 38px;
     border-top-right-radius: 10px;

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.kh.sns.DAO.UserDAO">
+
+    <insert id="signup">
+        insert into user
+            (user_id,user_pw,
+            user_email,user_phone,
+            user_create,user_nickName,
+            user_post,user_address,
+            user_detail,user_gender,
+            user_auth,user_state,
+            user_sido,user_sigungu,user_bname)
+        values
+            (#{user.user_id},#{user.user_pw},
+            #{user.user_email},#{user.user_phone},
+            NOW(),#{user.user_nickName},
+            #{user.user_post},#{user.user_address},
+            #{user.user_detail},#{user.user_gender},
+            '일반회원','이용중',
+            #{user.user_sido},#{user.user_sigungu},#{user.user_bname})
+    </insert>
+    <select id="checkId" resultType="kr.kh.sns.model.vo.UserVO">
+        select * from user where user_id = #{id}
+    </select>
+    <select id="login" resultType="kr.kh.sns.model.vo.UserVO">
+        select * from user where user_id = #{ld.id}
+    </select>
+    <select id="getUser" resultType="kr.kh.sns.model.vo.UserVO">
+        select * from user where user_id = #{id}
+    </select>
+    <update id="userUpdate">
+        update user set
+            user_id = #{user.user_id},
+            user_pw = #{user.user_pw},
+            user_email = #{user.user_email},
+            user_phone = #{user.user_phone},
+            user_nickName = #{user.user_nickName},
+            user_post = #{user.user_post},
+            user_address = #{user.user_address},
+            user_detail = #{user.user_detail},
+            user_gender = #{user.user_gender},
+            user_sido = #{user.user_sido},
+            user_sigungu = #{user.user_sigungu},
+            user_bname = #{user.user_bname}
+        where
+            user_id = #{user.user_id}
+    </update>
+    <update id="userUpdatePw">
+        update user set
+            user_pw = #{user.user_pw}
+        where
+            user_id = #{user.user_id}
+    </update>
+    <delete id="userRemove">
+        delete from user where user_id = #{user.user_id}
+    </delete>
+
+</mapper>
