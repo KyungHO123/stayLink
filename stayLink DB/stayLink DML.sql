@@ -11,4 +11,7 @@ insert into lodtype(lod_type)values("호텔/리조트"),("펜션/풀빌라"),("�
 insert into lodstate(lod_state)values("승인대기"),("영업중"),("영업정지");
 
 #예약 상태
-insert into reservestate(reserve_state)values("예약완료"),("예약취소"),("영업정지");
+insert into reservestate(reserve_state)values("예약완료"),("예약취소");
+
+#결제 상태
+insert into paymentState (paymentState)values("결제완료"),("결제취소"),("결제오류");

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import java.sql.Date;
 import java.time.LocalDateTime;
 
+//회원 VO
 @Data
 @NoArgsConstructor
 public class UserVO {

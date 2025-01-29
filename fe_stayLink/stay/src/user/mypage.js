@@ -10,6 +10,17 @@ function Mypage({ isLogin, setIsLogin }) {
     const [pwModal, setPwModal] = useState(false);
     const [newPw, setNewPw] = useState("");
     const [cofirmPw, setConfrimPw] = useState("");
+    const [nickMsg, setNickMsg] = useState("");
+    const [emailMsg, setEmailMsg] = useState("");
+    const [phoneMsg, setPhoneMsg] = useState("");
+
+
+    const number = /^[0-9]*$/;
+    // const specialCharRegex = /[^a-zA-Z0-9]/;
+    const specialCharNick = /[^a-zA-Z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+    // const koreanCharRegex = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
     //비번 모달 열기
     const openPwModal = () => {
         setPwModal(true);
@@ -69,11 +80,39 @@ function Mypage({ isLogin, setIsLogin }) {
 
     // onChange 이벤트 핸들러
     const handleChange = (e) => {
+
         const { name, value } = e.target;
         setInfo((prevInfo) => ({
             ...prevInfo,
             [name]: value,
         }));
+
+        if (name === "user_nickName") {
+            setNickMsg(
+                value.length < 2 || value.length > 8
+                    ? "닉네임은 2자 ~ 8자로 입력해주세요."
+                    : specialCharNick.test(value)
+                        ? "닉네임에 특수문자를 사용할 수 없습니다."
+                        : value.length >= 2 || value.length <= 8
+                            ? "사용 가능한 닉네임 입니다."
+                            : ""
+            );
+        } else if (name === "user_email") {
+            setEmailMsg(
+                !emailRegex.test(value)
+                    ? "이메일 형식이 올바르지 않습니다. example@example.com"
+                    : "사용 가능한 이메일 입니다."
+            );
+        } else if (name === "user_phone") {
+            setPhoneMsg(
+                value.length !== 11
+                    ? "전화번호는 11자로 입력해주세요."
+                    : !number.test(value)
+                        ? "전화번호는 숫자만 입력 가능합니다."
+                        : "사용가능한 전화번호 입니다."
+            );
+        }
+
     };
     const handleRemove = async () => {
         let confirm = window.confirm("회원탈퇴를 진행 하시겠습니까?");
@@ -99,6 +138,7 @@ function Mypage({ isLogin, setIsLogin }) {
             <div className="mypage-container">
                 <div className="mypage-box">
                     <Profile info={info} handleChange={handleChange}
+                        nickMsg={nickMsg} emailMsg={emailMsg} phoneMsg={phoneMsg}
                         handleRemove={handleRemove} handleLogout={handleLogout}
                         openPwModal={openPwModal} setInfo={setInfo} />
                 </div>
@@ -120,12 +160,12 @@ function Mypage({ isLogin, setIsLogin }) {
     );
 }
 
-function Profile({ info, handleChange, setInfo, openPwModal, handleLogout, handleRemove }) {
+function Profile({ info, handleChange, setInfo, openPwModal, handleLogout, handleRemove, nickMsg, emailMsg, phoneMsg }) {
     return (
         <div className="mypage-profile">
             <ProfileLeft info={info} handleChange={handleChange}
                 handleLogout={handleLogout} handleRemove={handleRemove} />
-            <ProfileInfo openPwModal={openPwModal}
+            <ProfileInfo openPwModal={openPwModal} nickMsg={nickMsg} emailMsg={emailMsg} phoneMsg={phoneMsg}
                 info={info} handleChange={handleChange} setInfo={setInfo} />
 
         </div>
@@ -180,10 +220,9 @@ function ProfileEtc({ info, handleChange, handleLogout, handleRemove }) {
     );
 }
 
-function ProfileInfo({ info, handleChange, setInfo, openPwModal }) {
+function ProfileInfo({ info, handleChange, setInfo, openPwModal, nickMsg, emailMsg, phoneMsg }) {
     const passwordDisplay = info.user_pw.slice(0, 14);
     const [open, setOpen] = useState(false);
-
 
     //주소찾기
     const toggleHandler = () => {
@@ -207,6 +246,28 @@ function ProfileInfo({ info, handleChange, setInfo, openPwModal }) {
     //수정 axios
     const handleUpdate = async (e) => {
         e.preventDefault();
+        if (!info.user_pw) {
+            alert("비밀번호를 입력해주세요");
+            return;
+        }
+        if (!info.user_nickName) {
+            alert("닉네임을 입력해주세요");
+            return;
+        }
+        if (!info.user_email) {
+            alert("이메일을 입력해주세요");
+            return;
+        }
+        if (!info.user_phone) {
+            alert("전화번호를 입력해주세요")
+            return;
+        }
+        if (!info.user_post) {
+            alert("주소를 입력해주세요")
+            return;
+        }
+
+
 
         const res = await axios.post("/api/mypage/update", info, { withCredentials: true });
         if (res) {
@@ -225,14 +286,15 @@ function ProfileInfo({ info, handleChange, setInfo, openPwModal }) {
                 <h2 style={{ color: "gray", padding: "0 25px" }}>내정보</h2>
             </div>
             <div className="profile-info-box">
-                <div className="profile-id">
+                <div style={{ marginBottom: "15px" }}
+                    className="profile-id">
                     <label>아이디</label>
                     <input type="text" value={info.user_id} readOnly />
                 </div>
                 <div className="profile-pw">
                     <label>비밀번호</label>
                     <div className="post-input-box"
-                        style={{ display: "flex", width: "100%", flexDirection: "row", marginBottom: "15px" }}>
+                        style={{ display: "flex", width: "100%", flexDirection: "row", marginBottom: "30px" }}>
                         <input style={{ width: "70%" }}
                             className="mypage-post-input"
                             type="password"
@@ -246,25 +308,35 @@ function ProfileInfo({ info, handleChange, setInfo, openPwModal }) {
                 </div>
                 <div className="profile-nick">
                     <label>닉네임</label>
-                    <input type="text"
+                    <input
+                        style={{ marginBottom: "0" }}
+                        type="text"
                         value={info.user_nickName}
                         placeholder={info.user_nickName}
                         onChange={handleChange}
                         name="user_nickName" />
+                    <div style={{ width: "100%", height: "30px" }}>
+                        {nickMsg && <label style={{ color: nickMsg === "사용 가능한 닉네임 입니다." ? "green" : "red" }}>{nickMsg}</label>}
+                    </div>
                 </div>
                 <div className="profile-phone">
                     <label>전화번호</label>
-                    <input type="text"
+                    <input
+                        style={{ marginBottom: "0" }}
+                        type="text"
                         value={info.user_phone}
                         placeholder={info.user_phone || "전화번호를 입력하세요."}
                         onChange={handleChange}
                         name="user_phone" />
+                    <div style={{ width: "100%", height: "30px" }}>
+                        {phoneMsg && <label style={{ color: phoneMsg === "사용가능한 전화번호 입니다." ? "green" : "red" }}>{phoneMsg}</label>}
+                    </div>
                 </div>
                 <div className="profile-email">
                     <label>이메일</label>
                     <div className="post-input-box"
-                        style={{ display: "flex", width: "100%", flexDirection: "row", marginBottom: "15px" }}>
-                        <input style={{ width: "70%" }}
+                        style={{ display: "flex", width: "100%", flexDirection: "row", }}>
+                        <input style={{ width: "70%",marginBottom:"0" }}
                             className="mypage-post-input"
                             type="text"
                             value={info.user_email}
@@ -274,15 +346,20 @@ function ProfileInfo({ info, handleChange, setInfo, openPwModal }) {
                         />
                         <button style={{ width: "30%" }} type="button">인증하기</button>
                     </div>
+                    <div style={{ width: "100%", height: "30px" }}>
+                        {emailMsg &&
+                            <label style={{ color: emailMsg === "사용 가능한 이메일 입니다." ? "green" : "red" }}>{emailMsg}</label>}
+                    </div>
                 </div>
-                <div className="profile-gender">
+                <div style={{ marginBottom: "15px" }}
+                     className="profile-gender">
                     <label>성별</label>
                     <input type="text" value={info.user_gender} name="user_gender" readOnly />
                 </div>
                 <div className="profile-post">
                     <label>우편번호</label>
                     <div className="post-input-box"
-                        style={{ display: "flex", width: "100%", flexDirection: "row", marginBottom: "15px" }}>
+                        style={{ display: "flex", width: "100%", flexDirection: "row", marginBottom: "25px" }}>
                         <input style={{ width: "70%" }}
                             className="mypage-post-input"
                             type="text"
@@ -300,11 +377,13 @@ function ProfileInfo({ info, handleChange, setInfo, openPwModal }) {
                         style={{ width: "100%", height: "480px" }}
                     />
                 )}
-                <div className="profile-address">
+                <div style={{ marginBottom: "15px" }}
+                className="profile-address">
                     <label>주소</label>
                     <input type="text" value={info.user_address} onChange={handleChange} name="user_address" />
                 </div>
-                <div className="profile-detail">
+                <div style={{ marginBottom: "15px" }}
+                    className="profile-detail">
                     <label>상세주소</label>
                     <input placeholder="상세주소를 입력하세요."
                         type="text" value={info.user_detail} onChange={handleChange} name="user_detail" />
