@@ -1,9 +1,9 @@
 package kr.kh.sns.service;
 
 import kr.kh.sns.model.dto.LoginDTO;
+import kr.kh.sns.model.vo.FileVO;
 import kr.kh.sns.model.vo.UserVO;
-
-import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface UserService {
 
@@ -20,4 +20,8 @@ public interface UserService {
     boolean userUpdatePw(UserVO user);
 
     boolean userRemove(UserVO user);
+
+    boolean profileUpload(int user, MultipartFile file);
+
+    FileVO getProfileImg(UserVO user);
 }

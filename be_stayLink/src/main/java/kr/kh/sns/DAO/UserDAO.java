@@ -2,11 +2,10 @@ package kr.kh.sns.DAO;
 
 
 import kr.kh.sns.model.dto.LoginDTO;
+import kr.kh.sns.model.vo.FileVO;
 import kr.kh.sns.model.vo.UserVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
 
 @Mapper
 public interface UserDAO {
@@ -24,4 +23,8 @@ public interface UserDAO {
     boolean userUpdatePw(@Param("user")UserVO user);
 
     boolean userRemove(@Param("user")UserVO user);
+
+    void insertFile(@Param("fi")FileVO fileVO);
+
+    FileVO getProfileImg(@Param("num")int userNum);
 }

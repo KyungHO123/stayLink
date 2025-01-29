@@ -7,7 +7,7 @@ import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.UUID;
 
-public class UploadFilteUtils {
+public class UploadFileUtils {
     public static String uploadFile(String uploadPath, String originalName, byte[]
             fileData)throws Exception{
         UUID uid = UUID.randomUUID();

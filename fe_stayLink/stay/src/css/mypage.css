@@ -206,4 +206,38 @@
     50% { transform: scale(1.2); }
     100% { transform: scale(1); }
 }
+/* 파일 입력 버튼 스타일링 */
+.upload-input {
+    display: inline-block;
+    width: 200px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease;
+}
 
+.upload-input:hover {
+    background-color: #45a049; /* 마우스 오버 시 색상 변화 */
+}
+
+.upload-input:active {
+    background-color: #388e3c; /* 클릭 시 색상 변화 */
+}
+
+/* 파일 선택 상태 텍스트 스타일 */
+.upload-input-text {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #777;
+}
+
+/* 실제 파일 입력창 숨기기 */
+.upload-input[type="file"] {
+    display: none;
+}

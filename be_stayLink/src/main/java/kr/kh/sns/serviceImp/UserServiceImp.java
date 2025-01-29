@@ -2,13 +2,15 @@ package kr.kh.sns.serviceImp;
 
 import kr.kh.sns.DAO.UserDAO;
 import kr.kh.sns.model.dto.LoginDTO;
+import kr.kh.sns.model.vo.FileVO;
 import kr.kh.sns.model.vo.UserVO;
 import kr.kh.sns.service.UserService;
+import kr.kh.sns.utils.UploadFileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class UserServiceImp implements UserService {
@@ -18,6 +20,26 @@ public class UserServiceImp implements UserService {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
+    @Value("${file.upload-dir}")
+    private String uploadPath;
+
+    private void uploadFile(int file_fk_num,MultipartFile file) {
+        if (file == null || file.getOriginalFilename().length() == 0) {
+            return;
+        }
+        try {
+            String fileOriName = file.getOriginalFilename();
+            // 첨부파일 업로드 후 경로를 가져옴
+            String fileName = UploadFileUtils.uploadFile(uploadPath, fileOriName, file.getBytes());
+            FileVO fileVO = new FileVO(file_fk_num, fileName, fileOriName);
+            // DB에 첨부파일 정보를 추가
+            userDao.insertFile(fileVO);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
 
     @Override
@@ -84,4 +106,22 @@ public class UserServiceImp implements UserService {
 
         return userDao.userRemove(user);
     }
+
+    @Override
+    public boolean profileUpload(int user_num, MultipartFile file) {
+        if(file == null ||file.isEmpty()||user_num==0){
+            return false;
+        }
+        uploadFile(user_num,file);
+        return true;
+    }
+
+    @Override
+    public FileVO getProfileImg(UserVO user) {
+        if(user == null){
+            return null;
+        }
+        return userDao.getProfileImg(user.getUser_num());
+    }
+
 }

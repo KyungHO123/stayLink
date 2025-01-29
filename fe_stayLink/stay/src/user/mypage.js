@@ -3,6 +3,7 @@ import "../css/mypage.css";
 import axios from "axios";
 import DaumPostcode from "react-daum-postcode";
 import { useNavigate } from "react-router-dom";
+import whiteUser from "../img/defaultProfile.png";
 
 function Mypage({ isLogin, setIsLogin }) {
     const navigate = useNavigate();
@@ -13,12 +14,10 @@ function Mypage({ isLogin, setIsLogin }) {
     const [nickMsg, setNickMsg] = useState("");
     const [emailMsg, setEmailMsg] = useState("");
     const [phoneMsg, setPhoneMsg] = useState("");
-
+    const [profileImg, setProfileImg] = useState(null);
 
     const number = /^[0-9]*$/;
-    // const specialCharRegex = /[^a-zA-Z0-9]/;
     const specialCharNick = /[^a-zA-Z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
-    // const koreanCharRegex = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     //비번 모달 열기
@@ -61,22 +60,7 @@ function Mypage({ isLogin, setIsLogin }) {
             return;
         }
     }
-    useEffect(() => {
-        axios.get("/api/mypage", { withCredentials: true })
-            .then((res) => {
-                setInfo(res.data.user);
-            })
-            .catch((error) => {
-                console.error("마이페이지 정보 로드 실패:", error);
-            });
-    }, []);
 
-    // 사용
-    if (!info) {
-        return <div className="loading-container">
-            <div className="loading-message">로딩 중...</div>
-        </div>
-    }
 
     // onChange 이벤트 핸들러
     const handleChange = (e) => {
@@ -132,12 +116,79 @@ function Mypage({ isLogin, setIsLogin }) {
                 })
         }
     };
+    const handleProfileImageChange = async (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setProfileImg(URL.createObjectURL(file));  // 미리보기용 이미지 설정
+        }
+
+
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("user_num", info.user_num);
+        try {
+            const res = await axios.post("/api/mypage/uploadImg", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+                withCredentials: true,
+            });
+            alert("프로필 이미지가 변경되었습니다.");
+        } catch (error) {
+            console.error("프로필 사진 업로드 실패:", error);
+            alert("프로필 사진 업로드에 실패했습니다.");
+        }
+    };
+    const handleProfileImgUpload = async () => {
+        const fileInput = document.getElementById("profileImageInput")
+        fileInput.click();
+
+    }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await axios.get("/api/mypage/getImg", { withCredentials: true });
+                if (res.data.img) {
+                    console.log(res.data);
+                    
+                    setProfileImg(res.data.img);  // 서버에서 가져온 프로필 이미지 URL로 상태 업데이트
+                } else {
+                    setProfileImg(whiteUser);  // 기본 이미지 설정
+                }
+            } catch (error) {
+                console.error("프로필 이미지 로드 실패:", error);
+                setProfileImg(whiteUser);  // 실패 시 기본 이미지
+            }
+
+            // 마이페이지 정보 가져오기
+            try {
+                const res = await axios.get("/api/mypage", { withCredentials: true });
+                setInfo(res.data.user);
+            } catch (error) {
+                console.error("마이페이지 정보 로드 실패:", error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    // 사용
+    if (!info) {
+        return <div className="loading-container">
+            <div className="loading-message">로딩 중...</div>
+        </div>
+    }
 
     return (
         <div className="mypage-js">
             <div className="mypage-container">
                 <div className="mypage-box">
-                    <Profile info={info} handleChange={handleChange}
+                    <Profile
+                        profileImg={profileImg}
+                        handleProfileImageChange={handleProfileImageChange}
+                        handleProfileImgUpload={handleProfileImgUpload}
+                        info={info} handleChange={handleChange}
                         nickMsg={nickMsg} emailMsg={emailMsg} phoneMsg={phoneMsg}
                         handleRemove={handleRemove} handleLogout={handleLogout}
                         openPwModal={openPwModal} setInfo={setInfo} />
@@ -160,10 +211,12 @@ function Mypage({ isLogin, setIsLogin }) {
     );
 }
 
-function Profile({ info, handleChange, setInfo, openPwModal, handleLogout, handleRemove, nickMsg, emailMsg, phoneMsg }) {
+function Profile({ info, handleChange, setInfo, handleProfileImageChange, handleProfileImgUpload, profileImg,
+    openPwModal, handleLogout, handleRemove, nickMsg, emailMsg, phoneMsg }) {
     return (
         <div className="mypage-profile">
-            <ProfileLeft info={info} handleChange={handleChange}
+            <ProfileLeft info={info} handleChange={handleChange} profileImg={profileImg}
+                handleProfileImageChange={handleProfileImageChange} handleProfileImgUpload={handleProfileImgUpload}
                 handleLogout={handleLogout} handleRemove={handleRemove} />
             <ProfileInfo openPwModal={openPwModal} nickMsg={nickMsg} emailMsg={emailMsg} phoneMsg={phoneMsg}
                 info={info} handleChange={handleChange} setInfo={setInfo} />
@@ -172,26 +225,35 @@ function Profile({ info, handleChange, setInfo, openPwModal, handleLogout, handl
     );
 }
 
-function ProfileLeft({ info, handleChange, openPwModal, handleLogout, handleRemove }) {
+function ProfileLeft({ info, handleChange, openPwModal, handleLogout,
+    handleRemove, handleProfileImageChange, handleProfileImgUpload, profileImg, }) {
     return (
         <div className="profile-img-box">
-            <ProfileImg />
-            <ProfileEtc info={info}
+            <ProfileImg profileImg={profileImg} />
+            <ProfileEtc info={info} handleProfileImgUpload={handleProfileImgUpload}
+                handleProfileImageChange={handleProfileImageChange}
                 handleChange={handleChange} openPwModal={openPwModal}
                 handleRemove={handleRemove} handleLogout={handleLogout} />
         </div>
     );
 }
 
-function ProfileImg() {
+function ProfileImg({ profileImg }) {
     return (
         <div className="profile-img">
-            프사
+            {profileImg ? (
+                <img src={profileImg} alt="Profile" style={{ width: "100%", height: "250px" }} />
+            ) : (
+                <div style={{ padding: "15px", display: "flex", flexDirection: "column", textAlign: "center" }}>
+                    <img src={whiteUser} alt="Profile" style={{ width: "100%", height: "auto" }} />
+                    <p style={{ margin: "0" }}>기본 이미지</p>
+                </div>
+            )}
         </div>
     );
 }
 
-function ProfileEtc({ info, handleChange, handleLogout, handleRemove }) {
+function ProfileEtc({ info, handleChange, handleLogout, handleRemove, handleProfileImgUpload, handleProfileImageChange }) {
     return (
         <div className="profile-etc">
             <div className="etc-btn">
@@ -207,9 +269,16 @@ function ProfileEtc({ info, handleChange, handleLogout, handleRemove }) {
                 <span>최근 본 숙소</span>
             </div>
             <div style={{ width: "80%", backgroundColor: "lightgray", margin: "30px auto", padding: "1px" }}></div>
-            <div className="etc-btn">
+            <div className="etc-btn" onClick={handleProfileImgUpload}>
                 <span>프로필 사진변경</span>
             </div>
+            <input
+                type="file"
+                accept="image/*"
+                onChange={handleProfileImageChange}
+                style={{ display: "none" }}
+                id="profileImageInput"
+            />
             <div className="etc-btn" onClick={handleLogout}>
                 <span>로그아웃</span>
             </div>
@@ -336,7 +405,7 @@ function ProfileInfo({ info, handleChange, setInfo, openPwModal, nickMsg, emailM
                     <label>이메일</label>
                     <div className="post-input-box"
                         style={{ display: "flex", width: "100%", flexDirection: "row", }}>
-                        <input style={{ width: "70%",marginBottom:"0" }}
+                        <input style={{ width: "70%", marginBottom: "0" }}
                             className="mypage-post-input"
                             type="text"
                             value={info.user_email}
@@ -352,7 +421,7 @@ function ProfileInfo({ info, handleChange, setInfo, openPwModal, nickMsg, emailM
                     </div>
                 </div>
                 <div style={{ marginBottom: "15px" }}
-                     className="profile-gender">
+                    className="profile-gender">
                     <label>성별</label>
                     <input type="text" value={info.user_gender} name="user_gender" readOnly />
                 </div>
@@ -378,7 +447,7 @@ function ProfileInfo({ info, handleChange, setInfo, openPwModal, nickMsg, emailM
                     />
                 )}
                 <div style={{ marginBottom: "15px" }}
-                className="profile-address">
+                    className="profile-address">
                     <label>주소</label>
                     <input type="text" value={info.user_address} onChange={handleChange} name="user_address" />
                 </div>

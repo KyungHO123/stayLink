@@ -1,15 +1,19 @@
 package kr.kh.sns.controller;
 
+import jakarta.mail.Multipart;
 import jakarta.servlet.http.HttpSession;
 import kr.kh.sns.model.dto.LoginDTO;
+import kr.kh.sns.model.vo.FileVO;
 import kr.kh.sns.model.vo.UserVO;
 import kr.kh.sns.service.UserService;
 import org.apache.catalina.User;
+import org.apache.ibatis.util.MapUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -57,6 +61,10 @@ public class UserController {
     }
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpSession session){
+        UserVO user = (UserVO)session.getAttribute("user");
+        if (user == null){
+            return null;
+        }
         session.invalidate();
         return ResponseEntity.ok("로그아웃 성공");
     }
@@ -113,12 +121,29 @@ public class UserController {
 
     }@PostMapping("/user/remove")
       public Map<String,Object> userRemove(@RequestBody UserVO user){
-        System.out.println(user.getUser_id() + "킁12312킁" + user.getUser_pw());
         Map<String,Object> map = new HashMap<>();
         boolean res = userService.userRemove(user);
         map.put("res",res);
         return map;
 
+    }
+    @PostMapping("/mypage/uploadImg")
+    public Map<String,Object> profileUpload(@RequestParam("user_num")int user_num,
+                                            @RequestParam("file") MultipartFile file){
+        Map<String,Object> map = new HashMap<>();
+
+        boolean res = userService.profileUpload(user_num,file);
+        map.put("res",res);
+        return map;
+    }
+    @GetMapping("/mypage/getImg")
+    public ResponseEntity<Map<String,Object>> getProfileImg(HttpSession session){
+        Map<String,Object> map = new HashMap<>();
+        UserVO user = (UserVO)session.getAttribute("user");
+        FileVO img = userService.getProfileImg(user);
+        String url = "/img/"+ img.getFile_name();
+        map.put("img",url);
+        return ResponseEntity.ok(map);
     }
 
 
