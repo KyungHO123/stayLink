@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../css/mypage.css";
 import axios from "axios";
 import DaumPostcode from "react-daum-postcode";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import whiteUser from "../img/defaultProfile.png";
 
 function Mypage({ isLogin, setIsLogin }) {
@@ -151,7 +151,7 @@ function Mypage({ isLogin, setIsLogin }) {
                 const res = await axios.get("/api/mypage/getImg", { withCredentials: true });
                 if (res.data.img) {
                     console.log(res.data);
-                    
+
                     setProfileImg(res.data.img);  // 서버에서 가져온 프로필 이미지 URL로 상태 업데이트
                 } else {
                     setProfileImg(whiteUser);  // 기본 이미지 설정
@@ -256,18 +256,26 @@ function ProfileImg({ profileImg }) {
 function ProfileEtc({ info, handleChange, handleLogout, handleRemove, handleProfileImgUpload, handleProfileImageChange }) {
     return (
         <div className="profile-etc">
-            <div className="etc-btn">
-                <span>예약내역</span>
-            </div>
-            <div className="etc-btn">
-                <span>결제내역</span>
-            </div>
-            <div className="etc-btn">
-                <span>찜한 숙소 목록</span>
-            </div>
-            <div className="etc-btn">
-                <span>최근 본 숙소</span>
-            </div>
+            <Link to="/userReserve" style={{ color: "black", "textDecoration": "none" }}>
+                <div className="etc-btn">
+                    <span>예약내역</span>
+                </div>
+            </Link>
+            <Link to="/userPayment" style={{ color: "black", "textDecoration": "none" }}>
+                <div className="etc-btn">
+                    <span>결제내역</span>
+                </div>
+            </Link>
+            <Link to="/userFavorite" style={{ color: "black", "textDecoration": "none" }}>
+                <div className="etc-btn">
+                    <span>찜한 숙소 목록</span>
+                </div>
+            </Link>
+            <Link to="/userView" style={{ color: "black", "textDecoration": "none" }}>
+                <div className="etc-btn">
+                    <span>최근 본 숙소</span>
+                </div>
+            </Link>
             <div style={{ width: "80%", backgroundColor: "lightgray", margin: "30px auto", padding: "1px" }}></div>
             <div className="etc-btn" onClick={handleProfileImgUpload}>
                 <span>프로필 사진변경</span>
@@ -279,11 +287,16 @@ function ProfileEtc({ info, handleChange, handleLogout, handleRemove, handleProf
                 style={{ display: "none" }}
                 id="profileImageInput"
             />
-            <div className="etc-btn" onClick={handleLogout}>
-                <span>로그아웃</span>
-            </div>
-            <div style={{ marginTop: "auto" }} className="user-remove" onClick={handleRemove}>
-                <span style={{ color: "gray", cursor: "pointer" }}>회원탈퇴</span>
+            <div style={{ width: "80%", backgroundColor: "lightgray", margin: "30px auto", padding: "1px" }}></div>
+            <p style={{ margin: "0 0 15px 0", color: "gray", fontWeight: "bold" }}>숙소 회원이시면?</p>
+            <Link to="/createLod" style={{ color: "black", "textDecoration": "none" }}>
+                <div className="etc-btn" >
+                    <span>숙소 등록</span>
+                </div>
+            </Link>
+            <div style={{ marginTop: "auto" }} className="user-remove" >
+                <span onClick={handleLogout} style={{ color: "gray", cursor: "pointer" }} >로그아웃&nbsp;|</span>
+                <span onClick={handleRemove} style={{ color: "gray", cursor: "pointer" }}>&nbsp;회원탈퇴</span>
             </div>
         </div>
     );

@@ -8,6 +8,11 @@ import Login from './user/login';
 import { BrowserRouter as Router, Route, Routes, BrowserRouter } from 'react-router-dom';
 import Signup from './user/signup';
 import { useState } from 'react';
+import UserReserve from './user/userReserve';
+import UserPayment from './user/userPayment';
+import UserFavorite from './user/userFavorite';
+import CreateLod from './lod/createLod';
+import UserView from './user/userView';
 
 function App() {
 const [isLogin,setIsLogin] = useState(false);
@@ -16,6 +21,11 @@ const [isLogin,setIsLogin] = useState(false);
       <BrowserRouter>
       <Header isLogin={isLogin} setIsLogin={setIsLogin} />
       <Routes>
+        <Route path='/userReserve' element={UserReserve}/>
+        <Route path='/userPayment' element={UserPayment}/>
+        <Route path='/userFavorite' element={UserFavorite}/>
+        <Route path='/createLod' element={CreateLod}/>
+        <Route path='/userView' element={UserView}/>
         <Route path="/" element={<Home />} />
         <Route path="/mypage" element={<Mypage isLogin={isLogin} setIsLogin={setIsLogin}/>} />
         <Route path="/login" element={<Login setIsLogin={setIsLogin} />} />

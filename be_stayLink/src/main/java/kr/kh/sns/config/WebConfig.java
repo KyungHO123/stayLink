@@ -17,7 +17,6 @@ public class WebConfig implements WebMvcConfigurer {
     }
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // D:/study/stayLink/img/ 경로를 정적 리소스로 서빙
         registry.addResourceHandler("/img/**")
                 .addResourceLocations("file:///D:/study/stayLink/img/");
     }
