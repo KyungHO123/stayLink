@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.kh.sns.DAO.LodDAO">
+    <insert id="createLod">
+        insert into lodging
+        (
+            lod_name,
+            lod_license,
+            lod_post,
+            lod_address,
+            lod_detail,
+            lod_introduce,
+            lod_language,
+            lod_amenities,
+            lod_entering,
+            lod_instruction,
+            lod_parkingInfo,
+            lod_notice,
+            lod_smoke,
+            lod_parking,
+            lod_type,
+            lod_sido,
+            lod_sigungu,
+            lod_bname,
+            lod_create,
+            lod_state,
+            lod_user_num
+        )
+        values
+        (
+            #{ld.lod_name},
+            #{ld.lod_license},
+            #{ld.lod_post},
+            #{ld.lod_address},
+            #{ld.lod_detail},
+            #{ld.lod_introduce},
+            #{ld.lod_language},
+            #{ld.lod_amenities},
+            #{ld.lod_entering},
+            #{ld.lod_instruction},
+            #{ld.lod_parkingInfo},
+            #{ld.lod_notice},
+            #{ld.lod_smoke},
+            #{ld.lod_parking},
+            #{ld.lod_type},
+            #{ld.lod_sido},
+            #{ld.lod_sigungu},
+            #{ld.lod_bname},
+            NOW(),
+            '영업중',
+            #{num}
+        )
+    </insert>
+    <select id="getLod" resultType="kr.kh.sns.model.vo.LodVO">
+        select * from lodging where lod_user_num = #{num}
+    </select>
+
+</mapper>
