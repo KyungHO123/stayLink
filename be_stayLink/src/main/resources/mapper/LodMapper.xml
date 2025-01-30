@@ -54,5 +54,10 @@
     <select id="getLod" resultType="kr.kh.sns.model.vo.LodVO">
         select * from lodging where lod_user_num = #{num}
     </select>
+    <insert id="insertFile">
+        insert into file(file_ori_name,file_name,file_fk_num,file_type)
+        values(#{fi.file_ori_name},#{fi.file_name},#{fi.file_fk_num},'숙소사진')
+    </insert>
+
 
 </mapper>

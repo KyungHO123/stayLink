@@ -5,7 +5,9 @@ import DaumPostcode from "react-daum-postcode";
 import { useNavigate, Link } from "react-router-dom";
 import whiteUser from "../img/defaultProfile.png";
 
-function Mypage({ isLogin, setIsLogin }) {
+function Mypage({ isLogin, setIsLogin, isLod }) {
+    console.log(isLod);
+    
     const navigate = useNavigate();
     const [info, setInfo] = useState(null);
     const [pwModal, setPwModal] = useState(false);
@@ -19,6 +21,7 @@ function Mypage({ isLogin, setIsLogin }) {
     const number = /^[0-9]*$/;
     const specialCharNick = /[^a-zA-Z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
 
     //비번 모달 열기
     const openPwModal = () => {
@@ -185,7 +188,7 @@ function Mypage({ isLogin, setIsLogin }) {
             <div className="mypage-container">
                 <div className="mypage-box">
                     <Profile
-                        profileImg={profileImg}
+                        profileImg={profileImg} isLod={isLod}
                         handleProfileImageChange={handleProfileImageChange}
                         handleProfileImgUpload={handleProfileImgUpload}
                         info={info} handleChange={handleChange}
@@ -211,11 +214,11 @@ function Mypage({ isLogin, setIsLogin }) {
     );
 }
 
-function Profile({ info, handleChange, setInfo, handleProfileImageChange, handleProfileImgUpload, profileImg,
+function Profile({ info, isLod, handleChange, setInfo, handleProfileImageChange, handleProfileImgUpload, profileImg,
     openPwModal, handleLogout, handleRemove, nickMsg, emailMsg, phoneMsg }) {
     return (
         <div className="mypage-profile">
-            <ProfileLeft info={info} handleChange={handleChange} profileImg={profileImg}
+            <ProfileLeft info={info} handleChange={handleChange} profileImg={profileImg} isLod={isLod}
                 handleProfileImageChange={handleProfileImageChange} handleProfileImgUpload={handleProfileImgUpload}
                 handleLogout={handleLogout} handleRemove={handleRemove} />
             <ProfileInfo openPwModal={openPwModal} nickMsg={nickMsg} emailMsg={emailMsg} phoneMsg={phoneMsg}
@@ -225,13 +228,13 @@ function Profile({ info, handleChange, setInfo, handleProfileImageChange, handle
     );
 }
 
-function ProfileLeft({ info, handleChange, openPwModal, handleLogout,
+function ProfileLeft({ info, handleChange, openPwModal, handleLogout, isLod,
     handleRemove, handleProfileImageChange, handleProfileImgUpload, profileImg, }) {
     return (
         <div className="profile-img-box">
             <ProfileImg profileImg={profileImg} />
             <ProfileEtc info={info} handleProfileImgUpload={handleProfileImgUpload}
-                handleProfileImageChange={handleProfileImageChange}
+                handleProfileImageChange={handleProfileImageChange} isLod={isLod}
                 handleChange={handleChange} openPwModal={openPwModal}
                 handleRemove={handleRemove} handleLogout={handleLogout} />
         </div>
@@ -253,7 +256,7 @@ function ProfileImg({ profileImg }) {
     );
 }
 
-function ProfileEtc({ info, handleChange, handleLogout, handleRemove, handleProfileImgUpload, handleProfileImageChange }) {
+function ProfileEtc({ isLod, info, handleChange, handleLogout, handleRemove, handleProfileImgUpload, handleProfileImageChange }) {
     return (
         <div className="profile-etc">
             <Link to="/userReserve" style={{ color: "black", "textDecoration": "none" }}>
@@ -288,12 +291,22 @@ function ProfileEtc({ info, handleChange, handleLogout, handleRemove, handleProf
                 id="profileImageInput"
             />
             <div style={{ width: "80%", backgroundColor: "lightgray", margin: "30px auto", padding: "1px" }}></div>
-            <p style={{ margin: "0 0 15px 0", color: "gray", fontWeight: "bold" }}>숙소 회원이시면?</p>
-            <Link to="/createLod" style={{ color: "black", "textDecoration": "none" }}>
-                <div className="etc-btn" >
-                    <span>숙소 등록</span>
-                </div>
-            </Link>
+           
+            {isLod ? (
+                <Link to="/myLod" style={{ color: "black", "textDecoration": "none" }}>
+                    <p style={{ margin: "0 0 15px 0", color: "gray", fontWeight: "bold" }}>숙소 관리는 여기!</p>
+                    <div className="etc-btn" >
+                        <span>숙소 관리</span>
+                    </div>
+                </Link>
+            ) : (
+                <Link to="/createLod" style={{ color: "black", "textDecoration": "none" }}>
+                    <p style={{ margin: "0 0 15px 0", color: "gray", fontWeight: "bold" }}>숙소 회원이시면?</p>
+                    <div className="etc-btn" >
+                        <span>숙소 등록</span>
+                    </div>
+                </Link>
+            )}
             <div style={{ marginTop: "auto" }} className="user-remove" >
                 <span onClick={handleLogout} style={{ color: "gray", cursor: "pointer" }} >로그아웃&nbsp;|</span>
                 <span onClick={handleRemove} style={{ color: "gray", cursor: "pointer" }}>&nbsp;회원탈퇴</span>

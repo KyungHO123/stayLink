@@ -70,7 +70,7 @@
 .createLod-imgContainer {
     padding: 10px;
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
     width: 100%;
     border-right: 1px solid #ccc;
 }
@@ -106,3 +106,26 @@
     background-color: #a18cd1;
     color: #ffff;
 }
+
+/* 이미지 선택 버튼 스타일 */
+.createLod-imgContainer input[type="file"] {
+    display: none; 
+  }
+  
+.createLod-imgContainer label {
+    align-items: center;
+    display: inline-block;
+    background-color: #fff;
+    color: lightgray;
+    font-size: 60px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    cursor: pointer;
+    text-align: center;
+    width: 200px;
+    height: 200px;
+    line-height: 180px;
+    margin: 10px auto;
+}
+  
+  
