@@ -11,7 +11,7 @@ public class FileVO {
     private String file_ori_name;//파일 원본명
     private int file_fk_num;//파일 외래키 번호
     private String file_type;
-    private String file_path = "D:/study/staylink/img/";
+    private String file_path = "/img/";
     static final String [] imgExtensions = {".jpg", ".png", ".bmp", ".gif",".avif"};
 
 

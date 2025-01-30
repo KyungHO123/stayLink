@@ -7,7 +7,7 @@ import whiteUser from "../img/defaultProfile.png";
 
 function Mypage({ isLogin, setIsLogin, isLod }) {
     console.log(isLod);
-    
+
     const navigate = useNavigate();
     const [info, setInfo] = useState(null);
     const [pwModal, setPwModal] = useState(false);
@@ -257,6 +257,8 @@ function ProfileImg({ profileImg }) {
 }
 
 function ProfileEtc({ isLod, info, handleChange, handleLogout, handleRemove, handleProfileImgUpload, handleProfileImageChange }) {
+   console.log(isLod);
+   
     return (
         <div className="profile-etc">
             <Link to="/userReserve" style={{ color: "black", "textDecoration": "none" }}>
@@ -291,7 +293,7 @@ function ProfileEtc({ isLod, info, handleChange, handleLogout, handleRemove, han
                 id="profileImageInput"
             />
             <div style={{ width: "80%", backgroundColor: "lightgray", margin: "30px auto", padding: "1px" }}></div>
-           
+
             {isLod ? (
                 <Link to="/myLod" style={{ color: "black", "textDecoration": "none" }}>
                     <p style={{ margin: "0 0 15px 0", color: "gray", fontWeight: "bold" }}>숙소 관리는 여기!</p>

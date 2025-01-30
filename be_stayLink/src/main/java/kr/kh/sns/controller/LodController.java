@@ -15,6 +15,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -46,8 +47,11 @@ public class LodController {
         UserVO user = (UserVO)session.getAttribute("user");
         LodVO userLod = lodService.getUserLod(user);
         List<FileVO> lodFile = lodService.getLodFile(userLod);
+        List<String> url = lodFile.stream()
+                        .map(file -> file.getFilePath())
+                                .collect(Collectors.toList());
         map.put("lod",userLod);
-        map.put("img",lodFile);
+        map.put("img",url);
         return ResponseEntity.ok(map);
     }
 }
