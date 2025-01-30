@@ -1,6 +1,7 @@
 package kr.kh.sns.controller;
 
 import jakarta.servlet.http.HttpSession;
+import kr.kh.sns.model.vo.FileVO;
 import kr.kh.sns.model.vo.LodVO;
 import kr.kh.sns.model.vo.UserVO;
 import kr.kh.sns.service.LodService;
@@ -10,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -35,6 +38,16 @@ public class LodController {
         UserVO user = (UserVO)session.getAttribute("user");
         boolean res = lodService.uploadFiles(files,user);
         map.put("res",res);
+        return ResponseEntity.ok(map);
+    }
+    @GetMapping("/lod/myLod")
+    public ResponseEntity<Map<String,Object>> getMyLod(HttpSession session){
+        Map<String,Object> map = new HashMap<>();
+        UserVO user = (UserVO)session.getAttribute("user");
+        LodVO userLod = lodService.getUserLod(user);
+        List<FileVO> lodFile = lodService.getLodFile(userLod);
+        map.put("lod",userLod);
+        map.put("img",lodFile);
         return ResponseEntity.ok(map);
     }
 }

@@ -24,7 +24,7 @@ const [isLod,setIsLod] = useState(false);
       <Header isLogin={isLogin} setIsLogin={setIsLogin} />
       <Routes>
         <Route path='/createLod' element={<CreateLod isLod={isLod} setIsLod={setIsLod}/> }/>
-        <Route path='/myLod' element={<MyLod/> }/>
+        <Route path='/myLod' element={<MyLod isLod={isLod} setIsLod={setIsLod} /> }/>
         <Route path='/userReserve' element={<UserReserve/>}/>
         <Route path='/userPayment' element={<UserPayment/>}/>
         <Route path='/userFavorite' element={<UserFavorite/>}/>

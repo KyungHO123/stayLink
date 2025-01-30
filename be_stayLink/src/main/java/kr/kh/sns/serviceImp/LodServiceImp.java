@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @Service
 public class LodServiceImp implements LodService {
 
@@ -20,7 +22,7 @@ public class LodServiceImp implements LodService {
     @Value("${file.upload-dir}")
     private String uploadPath;
 
-    private void uploadFile(int file_fk_num,MultipartFile file) {
+    private void uploadFile(int file_fk_num, MultipartFile file) {
         if (file == null || file.getOriginalFilename().length() == 0) {
             return;
         }
@@ -42,20 +44,34 @@ public class LodServiceImp implements LodService {
         if (lod == null || user == null)
             return false;
         LodVO dbLod = lodDao.getLod(user.getUser_num());
-        if(dbLod != null){
+        if (dbLod != null) {
             return false;
         }
-        return lodDao.createLod(lod,user.getUser_num());
+        return lodDao.createLod(lod, user.getUser_num());
     }
 
     @Override
     public boolean uploadFiles(MultipartFile[] files, UserVO user) {
-        if(files == null||files.length == 0|| user == null){
+        if (files == null || files.length == 0 || user == null) {
             return false;
         }
-        for(MultipartFile file : files){
-            uploadFile(user.getUser_num(),file);
+        for (MultipartFile file : files) {
+            uploadFile(user.getUser_num(), file);
         }
         return true;
+    }
+
+    @Override
+    public LodVO getUserLod(UserVO user) {
+        if (user == null)
+            return null;
+        return lodDao.getUserLod(user.getUser_num());
+    }
+
+    @Override
+    public List<FileVO> getLodFile(LodVO userLod) {
+        if (userLod == null)
+            return null;
+        return lodDao.getLodFile(userLod.getLod_user_num());
     }
 }
