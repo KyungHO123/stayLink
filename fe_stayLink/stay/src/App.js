@@ -30,7 +30,7 @@ const [isLod,setIsLod] = useState(false);
         <Route path='/userFavorite' element={<UserFavorite/>}/>
         <Route path='/userView' element={<UserView/>}/>
         <Route path="/" element={<Home />} />
-        <Route path="/mypage" element={<Mypage isLod={isLod}/>} />
+        <Route path="/mypage" element={<Mypage isLod={isLod} setIsLod={setIsLod}/>} />
         <Route path="/login" element={<Login setIsLogin={setIsLogin} />} />
         <Route path="/signup" element={<Signup />} />
 

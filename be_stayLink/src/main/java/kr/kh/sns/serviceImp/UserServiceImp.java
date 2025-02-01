@@ -3,6 +3,7 @@ package kr.kh.sns.serviceImp;
 import kr.kh.sns.DAO.UserDAO;
 import kr.kh.sns.model.dto.LoginDTO;
 import kr.kh.sns.model.vo.FileVO;
+import kr.kh.sns.model.vo.LodVO;
 import kr.kh.sns.model.vo.UserVO;
 import kr.kh.sns.service.UserService;
 import kr.kh.sns.utils.UploadFileUtils;
@@ -122,6 +123,18 @@ public class UserServiceImp implements UserService {
             return null;
         }
         return userDao.getProfileImg(user.getUser_num());
+    }
+
+    @Override
+    public boolean getMyLod(UserVO user) {
+        if(user == null){
+            return false;
+        }
+        LodVO lod = userDao.getMyLod(user.getUser_num());
+        if(lod == null){
+            return false;
+        }
+        return true;
     }
 
 }

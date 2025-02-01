@@ -2,6 +2,7 @@ package kr.kh.sns.service;
 
 import kr.kh.sns.model.dto.LoginDTO;
 import kr.kh.sns.model.vo.FileVO;
+import kr.kh.sns.model.vo.LodVO;
 import kr.kh.sns.model.vo.UserVO;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,4 +25,6 @@ public interface UserService {
     boolean profileUpload(int user, MultipartFile file);
 
     FileVO getProfileImg(UserVO user);
+
+    boolean getMyLod(UserVO user);
 }

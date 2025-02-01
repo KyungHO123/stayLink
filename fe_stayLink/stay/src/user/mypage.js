@@ -5,8 +5,7 @@ import DaumPostcode from "react-daum-postcode";
 import { useNavigate, Link } from "react-router-dom";
 import whiteUser from "../img/defaultProfile.png";
 
-function Mypage({ isLogin, setIsLogin, isLod }) {
-    console.log(isLod);
+function Mypage({ isLogin,setIsLod, setIsLogin, isLod }) {
 
     const navigate = useNavigate();
     const [info, setInfo] = useState(null);
@@ -170,6 +169,14 @@ function Mypage({ isLogin, setIsLogin, isLod }) {
                 setInfo(res.data.user);
             } catch (error) {
                 console.error("마이페이지 정보 로드 실패:", error);
+            }
+            const res = await axios.get("/api/mypage/getLod", { withCredentials: true });
+            if (res.data.lod) {
+                console.log(res.data.lod);
+                setIsLod(true);
+            } else {
+                console.log(res.data.lod);
+                setIsLod(false);
             }
         };
 

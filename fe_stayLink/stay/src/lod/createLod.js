@@ -360,13 +360,13 @@ function CreateLodInfo({ imageUrls,setIsLod }) {
                         />
                     </div>
                     <div className="createLod-form-title">
-                        <label>숙소 소개</label>
+                        <label>서비스 언어</label>
                         <textarea
                             type="text"
                             name="lod_language"
                             value={formData.lod_language}
                             onChange={handleChange}
-                            placeholder="숙소 소개를 입력해주세요."
+                            placeholder="서비스 언어를 입력해주세요."
                         />
                     </div>
                     <div className="createLod-form-title">

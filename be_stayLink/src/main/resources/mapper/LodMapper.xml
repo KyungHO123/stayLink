@@ -62,7 +62,7 @@
         select * from lodging where lod_user_num = #{num}
     </select>
     <select id="getLodFile" resultType="kr.kh.sns.model.vo.FileVO">
-        select * from file where file_fk_num = #{num} where file_type = '숙소사진'
+        select * from file where file_fk_num = #{num} and file_type = '숙소사진'
         order by file_num desc limit 12
     </select>
 

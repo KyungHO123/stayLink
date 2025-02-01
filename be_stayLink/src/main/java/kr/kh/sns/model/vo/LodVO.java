@@ -24,8 +24,8 @@ public class LodVO {
     private String lod_parkingInfo; // 주차 정보
     private String lod_notice;      // 공지 사항
     private String lod_smoke;       // 흡연 여부
-    private String lod_state;       // 상태
-    private int lod_user_num;       // 사용자 번호
+//    private String lod_state;       // 상태
+//    private int lod_user_num;       // 사용자 번호
     private String lod_parking;     // 주차 가능 여부
     private String lod_type;        // 숙소 유형
     private String lod_sido;        // 시도

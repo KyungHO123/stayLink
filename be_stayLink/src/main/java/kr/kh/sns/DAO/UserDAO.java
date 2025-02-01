@@ -3,6 +3,7 @@ package kr.kh.sns.DAO;
 
 import kr.kh.sns.model.dto.LoginDTO;
 import kr.kh.sns.model.vo.FileVO;
+import kr.kh.sns.model.vo.LodVO;
 import kr.kh.sns.model.vo.UserVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -27,4 +28,6 @@ public interface UserDAO {
     void insertFile(@Param("fi")FileVO fileVO);
 
     FileVO getProfileImg(@Param("num")int userNum);
+
+    LodVO getMyLod(@Param("num")int userNum);
 }

@@ -67,5 +67,9 @@
         order by file_num desc
         limit 1
     </select>
+    <select id="getMyLod" resultType="kr.kh.sns.model.vo.LodVO">
+        select * from lodging
+        where lod_user_num = #{num}
+    </select>
 
 </mapper>

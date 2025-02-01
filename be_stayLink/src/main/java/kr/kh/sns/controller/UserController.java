@@ -4,6 +4,7 @@ import jakarta.mail.Multipart;
 import jakarta.servlet.http.HttpSession;
 import kr.kh.sns.model.dto.LoginDTO;
 import kr.kh.sns.model.vo.FileVO;
+import kr.kh.sns.model.vo.LodVO;
 import kr.kh.sns.model.vo.UserVO;
 import kr.kh.sns.service.UserService;
 import org.apache.catalina.User;
@@ -143,6 +144,15 @@ public class UserController {
         FileVO img = userService.getProfileImg(user);
         String url = "/img/"+ img.getFile_name();
         map.put("img",url);
+        return ResponseEntity.ok(map);
+    }
+
+    @GetMapping("/mypage/getLod")
+    public ResponseEntity<Map<String,Object>> getMyLod(HttpSession session){
+        Map<String,Object> map = new HashMap<>();
+        UserVO user = (UserVO)session.getAttribute("user");
+        boolean lod = userService.getMyLod(user);
+        map.put("lod",lod);
         return ResponseEntity.ok(map);
     }
 
