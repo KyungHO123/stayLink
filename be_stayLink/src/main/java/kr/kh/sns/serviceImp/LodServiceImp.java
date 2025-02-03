@@ -4,6 +4,7 @@ import kr.kh.sns.DAO.LodDAO;
 import kr.kh.sns.model.vo.FileVO;
 import kr.kh.sns.model.vo.LodVO;
 import kr.kh.sns.model.vo.UserVO;
+import kr.kh.sns.pagination.Criteria;
 import kr.kh.sns.service.LodService;
 import kr.kh.sns.utils.UploadFileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
 
 @Service
@@ -69,9 +71,59 @@ public class LodServiceImp implements LodService {
     }
 
     @Override
-    public List<FileVO> getLodFile(LodVO userLod) {
-        if (userLod == null)
+    public List<FileVO> getLodFile(LodVO userLod, Criteria cri) {
+        if (userLod == null || cri == null)
             return null;
-        return lodDao.getLodFile(userLod.getLod_user_num());
+        return lodDao.getLodFile(userLod.getLod_user_num(),cri);
+    }
+
+    @Override
+    public boolean updateLod(LodVO lod) {
+        if (lod == null){
+            return false;
+        }
+        return lodDao.updateLod(lod);
+    }
+
+    @Override
+    public int getLodFileCount(LodVO userLod) {
+        return lodDao.getLodFileCount(userLod.getLod_user_num());
+    }
+
+
+
+    @Override
+    public boolean lodImgDelete(int num, UserVO user) {
+        LodVO lodDb = lodDao.getLod(user.getUser_num());
+        if(lodDb == null){
+            return false;
+        }
+        FileVO fileDb = lodDao.getDeleteFile(num);
+        if(fileDb == null || fileDb.getFile_fk_num() != lodDb.getLod_user_num()){
+            return false;
+        }
+        String path = "D:/study/stayLink";
+        File fileDelete = new File(path+fileDb.getFilePath());
+        System.out.println("삭제 경로 :"+fileDelete );
+        if(fileDelete.exists()){
+            System.out.println("파일 있음");
+            if(fileDelete.delete()){
+                System.out.println("파일 삭제 성공");
+            }else{
+                System.out.println("실패");
+            }
+        }
+        if (lodDao.lodImgDelete(fileDb.getFile_num())){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean imgUpload(MultipartFile file, int num) {
+        if(file == null||file.isEmpty())
+        return false;
+        uploadFile(num,file);
+        return true;
     }
 }

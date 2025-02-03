@@ -43,7 +43,8 @@
     height: 100%;
     border-radius: 10px;
     white-space: nowrap;
-
+    overflow-y: auto; 
+    scrollbar-width: none;
 }
 .profile-etc{
     display: flex;
@@ -81,6 +82,9 @@
     flex-direction: column;
     height: 100%;
     padding: 0 30px;
+    white-space: nowrap;
+    max-height: 920px;
+    
 
 }
 

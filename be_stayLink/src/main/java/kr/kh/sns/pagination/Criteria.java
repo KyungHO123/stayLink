@@ -27,6 +27,9 @@ public class Criteria {
     public int getPageStart() {
         return (page - 1) * perPageNum;
     }
+    public int pageStart(){
+        return getPageStart();
+    }
     public int getPage() {
         return this.page;
     }

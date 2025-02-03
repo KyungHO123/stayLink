@@ -63,7 +63,40 @@
     </select>
     <select id="getLodFile" resultType="kr.kh.sns.model.vo.FileVO">
         select * from file where file_fk_num = #{num} and file_type = '숙소사진'
-        order by file_num desc limit 12
+        order by file_num desc limit #{cri.pageStart}, #{cri.perPageNum}
     </select>
+    <update id="updateLod">
+        UPDATE lodging
+        SET
+        lod_name = #{ld.lod_name},
+        lod_license = #{ld.lod_license},
+        lod_post = #{ld.lod_post},
+        lod_address = #{ld.lod_address},
+        lod_detail = #{ld.lod_detail},
+        lod_introduce = #{ld.lod_introduce},
+        lod_language = #{ld.lod_language},
+        lod_amenities = #{ld.lod_amenities},
+        lod_entering = #{ld.lod_entering},
+        lod_instruction = #{ld.lod_instruction},
+        lod_parkingInfo = #{ld.lod_parkingInfo},
+        lod_notice = #{ld.lod_notice},
+        lod_smoke = #{ld.lod_smoke},
+        lod_parking = #{ld.lod_parking},
+        lod_type = #{ld.lod_type},
+        lod_sido = #{ld.lod_sido},
+        lod_sigungu = #{ld.lod_sigungu},
+        lod_bname = #{ld.lod_bname}
+        WHERE lod_num = #{ld.lod_num}
+    </update>
+    <select id="getLodFileCount" resultType="int">
+        select count(*) from file
+        where file_fk_num = #{num} and file_type = '숙소사진'
+    </select>
+    <select id="getDeleteFile" resultType="kr.kh.sns.model.vo.FileVO">
+        select * from file where file_num = #{num}
+    </select>
+    <delete id="lodImgDelete">
+        delete from file where file_num = #{num}
+    </delete>
 
 </mapper>

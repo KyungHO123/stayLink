@@ -11,9 +11,13 @@ import { useState } from 'react';
 import UserReserve from './user/userReserve';
 import UserPayment from './user/userPayment';
 import UserFavorite from './user/userFavorite';
-import CreateLod from './lod/createLod';
+import CreateLodApp from './lod/createLodApp';
 import UserView from './user/userView';
-import MyLod from './lod/myLod';
+import MyLodApp from './lod/myLodApp';
+import SalesApp from './sales/salesApp';
+import RoomApp from './room/roomApp';
+import ReserveApp from './reserve/reserveApp';
+import LodUserApp from './reserveUser/lodUserApp';
 
 function App() {
 const [isLogin,setIsLogin] = useState(false);
@@ -23,8 +27,8 @@ const [isLod,setIsLod] = useState(false);
       <BrowserRouter>
       <Header isLogin={isLogin} setIsLogin={setIsLogin} />
       <Routes>
-        <Route path='/createLod' element={<CreateLod isLod={isLod} setIsLod={setIsLod}/> }/>
-        <Route path='/myLod' element={<MyLod isLod={isLod} setIsLod={setIsLod} /> }/>
+        <Route path='/createLod' element={<CreateLodApp isLod={isLod} setIsLod={setIsLod}/> }/>
+        <Route path='/myLod' element={<MyLodApp isLod={isLod} setIsLod={setIsLod} /> }/>
         <Route path='/userReserve' element={<UserReserve/>}/>
         <Route path='/userPayment' element={<UserPayment/>}/>
         <Route path='/userFavorite' element={<UserFavorite/>}/>
@@ -33,7 +37,10 @@ const [isLod,setIsLod] = useState(false);
         <Route path="/mypage" element={<Mypage isLod={isLod} setIsLod={setIsLod}/>} />
         <Route path="/login" element={<Login setIsLogin={setIsLogin} />} />
         <Route path="/signup" element={<Signup />} />
-
+        <Route path="/sales/app" element={<SalesApp />} />
+        <Route path="/room/app" element={<RoomApp />} />
+        <Route path="/reserve/app" element={<ReserveApp />} />
+        <Route path="/reserveUser/app" element={<LodUserApp />} />
       </Routes>
       <Footer />
     </BrowserRouter>

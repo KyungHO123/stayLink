@@ -385,7 +385,7 @@ function ProfileInfo({ info, handleChange, setInfo, openPwModal, nickMsg, emailM
     }
 
     return (
-        <div className="profile-info">
+        <div className="profile-info" style={{ overflow: "hidden" }}>
             <div className="profile-info-h2">
                 <h2 style={{ color: "gray", padding: "0 25px" }}>내정보</h2>
             </div>
