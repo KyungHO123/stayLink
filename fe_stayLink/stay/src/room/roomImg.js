@@ -4,6 +4,7 @@ import React from "react";
 function RoomImg({ handleImageChange,imageUrls }) {
     return (
         <div>
+            <h2>객실 사진 등록</h2>
             <div className="createLod-imgContainer">
                 {[...Array(12)].map((_, index) => (
                     <React.Fragment key={index}>

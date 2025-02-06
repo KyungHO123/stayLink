@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import RoomCreate from './roomCreate';
 import RoomImg from './roomImg';
+import '../css/room.css';
 
 function RoomApp() {
   // RoomVO의 각 필드에 대응하는 상태
@@ -38,7 +39,7 @@ function RoomApp() {
   };
 
   return (
-    <div>
+    <div className='roomApp'>
       <RoomImg handleImageChange={handleImageChange} imageUrls={imageUrls} />
       <RoomCreate roomData={roomData} handleSubmit={handleSubmit} handleChange={handleChange}/>
     </div>
