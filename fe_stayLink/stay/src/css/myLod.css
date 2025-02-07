@@ -89,14 +89,14 @@
     width: 100%;
 }
 .manage-btn-box{
-    width: 50%;
-    min-width: 50%;
+    width: 100%;
     border: 1px solid #ccc;
     padding: 12px;
     border-radius:10px ;
     text-align: center;
     margin-bottom:15px;
 }
+
 .manage-btn-box:hover{
     color: white;
     cursor: pointer;
@@ -360,4 +360,9 @@
     line-height: 280px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
+}
+.myLodLink{
+    color: #333;
+    text-decoration: none;
+    
 }

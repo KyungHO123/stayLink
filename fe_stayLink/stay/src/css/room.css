@@ -1,64 +1,92 @@
 .roomApp{
-    padding: 30px;
     width: 100%;
     height: 100%;
     display: flex;
     justify-content: space-between;
 }
 
-.room-create-container{
+/* 전체 컨테이너 스타일 */
+.room-create-container {
     width: 100%;
-    height: 100%;
-    padding: 0 30px;
+    margin: 0 auto; /* 중앙 정렬 */
+    padding: 20px;
+   
+    border-radius: 10px;
 }
-.room-create-info{
-    width: 100%;
-    max-width: 700px;
-    min-width: 600px;
+
+/* 폼 내부 요소 정렬 */
+.room-create-info {
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, .1);
+    border-radius: 10px;
+    padding: 30px;
+    margin: 15px;
     display: flex;
     flex-direction: column;
-    padding: 10px;
-    margin: auto;
+    gap: 15px; /* 요소 간격 조정 */
 }
-.room-info-title>input,.room-info-title>select{
-    width: 700px;
-    height: 100%;
-    padding: 12px;
-    font-size: 16px;
-    border: none;
-    outline: none;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-}
-.room-info-title{
+.createLod-imgContainer{
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, .1);
     width: 100%;
-    height: 100%;
+    display: block;
+    margin: 35px 0;
+    border-radius: 10px;
+    border: none;
+    padding: 10px;
 }
-.room-info-title>textarea{
+.room-img-box{
+    padding: 20px;
+    width: 92%;
+    margin: 0 auto;
+    
+}
+.room-img-content{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* 입력 필드 스타일 */
+.room-info-title {
+    display: flex;
+    flex-direction: column;
+}
+
+.room-info-title > label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.room-info-title > input,
+.room-info-title > select,
+.room-info-title > textarea {
+    width: 100%;
     padding: 12px;
     font-size: 16px;
-    border: none;
-    outline: none;
-    border-radius: 10px;
     border: 1px solid #ccc;
-    min-width: 700px;
-    max-width: 700px;
-    height: 100%;
-    max-height: 300px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+/* 텍스트 에어리어 크기 조정 */
+.room-info-title > textarea {
     min-height: 300px;
 }
-.room-info-title>button{
-    width: 700px;
+
+/* 버튼 스타일 */
+.room-info-title > button {
+    width: 100%;
+    margin: 0 auto;
     padding: 12px;
     font-size: 16px;
-    border: none;
-    background-color: white;
-    border-radius: 10px;
+    font-weight: bold;
+    background-color: #fff;
     border: 1px solid #ccc;
+    border-radius: 8px;
+    cursor: pointer;
 }
-.room-info-title>button:hover{
-    color: white;
-    background-color: #a18cd1;
-    border-color: #a18cd1;
 
+.room-info-title > button:hover {
+    background-color: #a18cd1;
+    color: white;
+    border-color: #a18cd1;
 }

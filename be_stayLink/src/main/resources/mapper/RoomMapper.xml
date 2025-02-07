@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.kh.sns.DAO.RoomDAO">
+    <select id="getRoom" resultType="kr.kh.sns.model.vo.RoomVO">
+        select * from room where room_lod_num = #{num}
+    </select>
+
+    <insert id="insertRoom">
+        INSERT INTO room (
+        room_name, room_count, room_max, room_min, room_bed,
+        room_size, room_smoke, room_detail, room_lod_num
+        ) VALUES (
+        #{ro.room_name}, #{ro.room_count}, #{ro.room_max}, #{ro.room_min}, #{ro.room_bed},
+        #{ro.room_size}, #{ro.room_smoke}, #{ro.room_detail}, #{num}
+        )
+    </insert>
+    <insert id="insertFile">
+        insert into file(file_name,file_ori_name,file_fk_num,file_type)
+        values(#{fi.file_name},#{fi.file_ori_name},#{fi.file_fk_num},'객실사진')
+    </insert>
+
+</mapper>

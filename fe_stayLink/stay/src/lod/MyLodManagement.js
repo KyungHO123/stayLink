@@ -10,7 +10,7 @@ function MyLodManagement() {
                 <h2 style={{ color: "gray" }}>종합 관리</h2>
             </div>
             <div className="manage-box">
-                <Link to="/room/app">
+                <Link to="/room/app" className="myLodLink">
                     <div className="manage-btn-box">
                         <span className="manage-btn">객실 관리</span>
                     </div>
@@ -20,7 +20,7 @@ function MyLodManagement() {
                 </div>
             </div>
             <div className="manage-box">
-                <Link to="/reserve/app">
+                <Link to="/reserve/app"  className="myLodLink">
                     <div className="manage-btn-box">
                         <span className="manage-btn">예약 관리</span>
                     </div>
@@ -30,7 +30,7 @@ function MyLodManagement() {
                 </div>
             </div>
             <div className="manage-box">
-                <Link to="/sales/app">
+                <Link to="/sales/app"  className="myLodLink">
                     <div className="manage-btn-box">
                         <span className="manage-btn">매출 관리</span>
                     </div>
@@ -40,7 +40,7 @@ function MyLodManagement() {
                 </div>
             </div>
             <div className="manage-box">
-                <Link to="/reserveUser/app">
+                <Link to="/reserveUser/app"  className="myLodLink">
                     <div className="manage-btn-box">
                         <span className="manage-btn">예약한 회원 조회</span>
                     </div>
