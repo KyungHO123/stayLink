@@ -18,5 +18,10 @@
         insert into file(file_name,file_ori_name,file_fk_num,file_type)
         values(#{fi.file_name},#{fi.file_ori_name},#{fi.file_fk_num},'객실사진')
     </insert>
-
+    <select id="getLodRoom" resultType="kr.kh.sns.model.vo.RoomVO">
+        select * from room where room_lod_num = #{num}
+    </select>
+    <select id="getRoomImg" resultType="kr.kh.sns.model.vo.FileVO">
+        select * from file where file_fk_num = #{num}
+    </select>
 </mapper>

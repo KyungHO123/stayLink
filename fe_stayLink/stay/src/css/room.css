@@ -1,17 +1,18 @@
 .roomApp{
     width: 100%;
     height: 100%;
-    display: flex;
-    justify-content: space-between;
 }
-
+.create-container{
+    display: flex;
+}
 /* 전체 컨테이너 스타일 */
 .room-create-container {
     width: 100%;
     margin: 0 auto; /* 중앙 정렬 */
     padding: 20px;
-   
     border-radius: 10px;
+
+ 
 }
 
 /* 폼 내부 요소 정렬 */
@@ -23,17 +24,22 @@
     display: flex;
     flex-direction: column;
     gap: 15px; /* 요소 간격 조정 */
+    white-space: nowrap;
+    height: 719px;
+    overflow: hidden;
+    overflow-y: auto;
+    scrollbar-width: none;
 }
 .createLod-imgContainer{
-    box-shadow: 0 0 8px 0 rgba(0, 0, 0, .1);
     width: 100%;
     display: block;
-    margin: 35px 0;
+    margin: 25px 0;
     border-radius: 10px;
     border: none;
-    padding: 10px;
 }
 .room-img-box{
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, .1);
+    border-radius: 10px;
     padding: 20px;
     width: 92%;
     margin: 0 auto;
@@ -89,4 +95,60 @@
     background-color: #a18cd1;
     color: white;
     border-color: #a18cd1;
+}
+
+.room-manager{
+    width: 100%;
+    height: 100%;
+}
+.room-list-container{
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, .1);
+    border-radius: 10px;
+    margin: 0 auto;
+    width: 96%;
+    height: 100%;
+    padding: 30px;
+    display: flex;
+
+}
+.room-content{
+    display: flex;
+    width: 400px;
+    height: 700px;
+    gap: 5px;
+    margin: 5px;
+    flex-direction: column;
+}
+.room{
+    border: 1px solid #ccc;
+    width: 400px;
+    height: 100%;
+    min-height: 600px;
+
+    border-radius: 10px;
+    padding:10px 10px;
+    
+}
+.room:hover{
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, .1);
+    cursor: pointer;
+}
+.room-content-info{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.room-content-img{
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, .1);
+    border-radius: 10px;
+    width: 100%;height: 100%;max-height: 250px;
+    margin-bottom: 15px;
+}
+.room-content-info-title{
+    margin: 2px;
+    display: flex;
+}
+.room-content-info-title>label{
+    font-weight: bold;
+    font-size: 16px;
 }

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import RoomCreate from './roomCreate';
 import RoomImg from './roomImg';
+import RoomManagement from './roomManager';
 import '../css/room.css';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
@@ -19,7 +20,7 @@ function RoomApp() {
     room_detail: '',
     room_lod_num: '',
   });
-  const [roomImages, setRoomImages] = useState([]);
+  const [roomImg, setRoomImg] = useState(null);
   const [imageUrls, setImageUrls] = useState(Array(15).fill(""));
   const handleSubmit = async (e) => {
     console.log(2);
@@ -61,7 +62,7 @@ function RoomApp() {
         }
       }
     }
-    try{
+    try {
       const res = await axios.post("/api/room/create", roomData);
       alert(res.data.msg);
       if (res.status === 200) {
@@ -85,7 +86,7 @@ function RoomApp() {
           }
         });
         if (roomFile.status === 200) {
-  
+
         }
         else {
           alert("이미지 업로드에 실패 했습니다.")
@@ -93,18 +94,18 @@ function RoomApp() {
         navigate("/myLod");
         return;
       }
-     
-    }catch(err){
-      if(err.response){
-        if(err.response.status === 409
-          ||err.response.status === 401
-          ||err.response.status === 403
-          ||err.response.status === 500
+
+    } catch (err) {
+      if (err.response) {
+        if (err.response.status === 409
+          || err.response.status === 401
+          || err.response.status === 403
+          || err.response.status === 500
         )
           alert(err.response.data.msg);
       }
     }
-  
+
 
   };
 
@@ -129,13 +130,44 @@ function RoomApp() {
       reader.readAsDataURL(file);
     }
   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get("/api/room/get", { withCredentials: true });
 
+        if (res.data.rooms) {
+          console.log(res.data.rooms, "객실 데이터 성공");
+        }
+      } catch (err) {
+        if (err.response) {
+          if ([401, 403, 404].includes(err.response.status)) {
+            alert(err.response.data.msg);
+          }
+        }
+      }
 
+      try {
+        const res = await axios.get("/api/room/img", { withCredentials: true });
+
+        if (res.data.img) {
+          console.log(res.data.img, "이미지 데이터 성공");
+          setRoomImg(res.data.img);
+        }
+      } catch (err) {
+        console.error("이미지 불러오기 실패:", err);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className='roomApp'>
-      <RoomImg handleImageChange={handleImageChange} imageUrls={imageUrls} />
-      <RoomCreate roomData={roomData} handleSubmit={handleSubmit} handleChange={handleChange} />
+      <div className='create-container'>
+        <RoomImg handleImageChange={handleImageChange} imageUrls={imageUrls} />
+        <RoomCreate roomData={roomData} handleSubmit={handleSubmit} handleChange={handleChange} />
+      </div>
+      <RoomManagement roomImg={roomImg} />
     </div>
   );
 }

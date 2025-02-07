@@ -13,4 +13,8 @@ public interface RoomDAO {
     boolean insertRoom(@Param("ro")RoomVO room,@Param("num") int lodNum);
 
     void insertFile(@Param("fi") FileVO fileVO);
+
+    RoomVO getLodRoom(@Param("num") int lodNum);
+
+    FileVO getRoomImg(@Param("num")int roomLodNum);
 }

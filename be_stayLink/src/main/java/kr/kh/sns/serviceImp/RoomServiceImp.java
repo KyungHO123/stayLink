@@ -61,4 +61,20 @@ public class RoomServiceImp implements RoomService {
         }
         return true;
     }
+
+    @Override
+    public FileVO getRoomFile(RoomVO room) {
+        if(room == null)
+            return null;
+
+        return roomDao.getRoomImg(room.getRoom_lod_num());
+    }
+
+    @Override
+    public RoomVO getLodRoom(LodVO lod) {
+        if(lod == null)
+        return null;
+
+        return roomDao.getLodRoom(lod.getLod_num());
+    }
 }
