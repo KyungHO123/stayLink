@@ -52,12 +52,12 @@ public class RoomServiceImp implements RoomService {
     }
 
     @Override
-    public boolean uploadFiles(MultipartFile[] files, LodVO lod) {
-        if(files == null || files.length==0||lod == null){
+    public boolean uploadFiles(MultipartFile[] files, int lod) {
+        if(files == null || files.length==0){
             return false;
         }
         for (MultipartFile file : files){
-            uploadFile(lod.getLod_num(), file);
+            uploadFile(lod, file);
         }
         return true;
     }
@@ -67,11 +67,11 @@ public class RoomServiceImp implements RoomService {
         if(room == null)
             return null;
 
-        return roomDao.getRoomImg(room.getRoom_lod_num());
+        return roomDao.getRoomImg(room.getRoom_num());
     }
 
     @Override
-    public RoomVO getLodRoom(LodVO lod) {
+    public List<RoomVO> getLodRoom(LodVO lod) {
         if(lod == null)
         return null;
 

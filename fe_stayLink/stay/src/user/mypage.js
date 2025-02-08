@@ -153,7 +153,6 @@ function Mypage({ isLogin,setIsLod, setIsLogin, isLod }) {
                 const res = await axios.get("/api/mypage/getImg", { withCredentials: true });
                 if (res.data.img) {
                     console.log(res.data);
-
                     setProfileImg(res.data.img);  // 서버에서 가져온 프로필 이미지 URL로 상태 업데이트
                 } else {
                     setProfileImg(whiteUser);  // 기본 이미지 설정

@@ -22,6 +22,8 @@
         select * from room where room_lod_num = #{num}
     </select>
     <select id="getRoomImg" resultType="kr.kh.sns.model.vo.FileVO">
-        select * from file where file_fk_num = #{num}
+        select * from file where file_fk_num = #{num} and file_type = '객실사진'
+        order by file_num
+        limit 1
     </select>
 </mapper>

@@ -12,9 +12,9 @@ public interface RoomService {
 
     List<RoomVO> getRoom(int roomLodNum);
 
-    boolean uploadFiles(MultipartFile[] files, LodVO lod);
+    boolean uploadFiles(MultipartFile[] files, int lod);
 
-    FileVO getRoomFile(RoomVO lod);
+    FileVO getRoomFile(RoomVO room);
 
-    RoomVO getLodRoom(LodVO lod);
+    List<RoomVO> getLodRoom(LodVO lod);
 }

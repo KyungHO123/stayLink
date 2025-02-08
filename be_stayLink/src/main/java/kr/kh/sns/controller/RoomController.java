@@ -62,7 +62,8 @@ public class RoomController {
     @PostMapping("/room/upload")
     public ResponseEntity<Map<String,Object>> roomUpload(
             HttpSession session,
-            @RequestParam("files")MultipartFile[] files){
+            @RequestParam("files")MultipartFile[] files,
+            @RequestParam("file_fk_num") int num){
         Map<String,Object> map = new HashMap<>();
         UserVO user = (UserVO) session.getAttribute("user");
         LodVO lod = lodService.getUserLod(user);
@@ -76,7 +77,7 @@ public class RoomController {
             map.put("msg", "숙소회원 권한이 필요합니다.");
             return ResponseEntity.status(403).body(map);
         }
-        boolean res = roomService.uploadFiles(files,lod);
+        boolean res = roomService.uploadFiles(files,num);
         map.put("res",res);
         return ResponseEntity.ok(map);
     }
@@ -113,12 +114,22 @@ public class RoomController {
     @GetMapping("/room/img")
     public ResponseEntity<Map<String,Object>> getRoomImg(HttpSession session){
         Map<String,Object> map = new HashMap<>();
+        List<Map<String,Object>> fileList = new ArrayList<>();
         UserVO user = (UserVO) session.getAttribute("user");
         LodVO lod = lodService.getUserLod(user);
-        RoomVO room = roomService.getLodRoom(lod);
-        FileVO file = roomService.getRoomFile(room);
-        String url = "/img/" + file.getFile_name();
-        map.put("img",url);
+        List<RoomVO> rooms = roomService.getLodRoom(lod);
+        for (RoomVO room : rooms){
+            FileVO file = roomService.getRoomFile(room);
+            if(file != null){
+                Map<String,Object> data = new HashMap<>();
+                data.put("file_fk_num",file.getFile_fk_num());
+                data.put("file_num",file.getFile_num());
+                data.put("img","/img/" + file.getFile_name());
+                fileList.add(data);
+            }
+        }
+        map.put("res",true);
+        map.put("files",fileList);
         return ResponseEntity.ok(map);
     }
 }

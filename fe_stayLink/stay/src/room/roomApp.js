@@ -20,7 +20,8 @@ function RoomApp() {
     room_detail: '',
     room_lod_num: '',
   });
-  const [roomImg, setRoomImg] = useState(null);
+  const [roomImg, setRoomImg] = useState([]);
+  const [roomList,setRoomList] = useState([]);
   const [imageUrls, setImageUrls] = useState(Array(15).fill(""));
   const handleSubmit = async (e) => {
     console.log(2);
@@ -66,6 +67,7 @@ function RoomApp() {
       const res = await axios.post("/api/room/create", roomData);
       alert(res.data.msg);
       if (res.status === 200) {
+        const roomNum = res.data.room_num;
         const form = new FormData();
         if (Array.isArray(imageUrls) && imageUrls.length > 0) {
           imageUrls.forEach((url, index) => {
@@ -80,6 +82,8 @@ function RoomApp() {
             form.append(key, roomData[key]);
           }
         }
+        form.append("file_fk_num",roomNum);
+     
         const roomFile = await axios.post("/api/room/upload", form, {
           headers: {
             'Content-Type': 'multipart/form-data'
@@ -137,6 +141,7 @@ function RoomApp() {
 
         if (res.data.rooms) {
           console.log(res.data.rooms, "객실 데이터 성공");
+          setRoomList(res.data.rooms);
         }
       } catch (err) {
         if (err.response) {
@@ -148,12 +153,13 @@ function RoomApp() {
 
       try {
         const res = await axios.get("/api/room/img", { withCredentials: true });
-
-        if (res.data.img) {
-          console.log(res.data.img, "이미지 데이터 성공");
-          setRoomImg(res.data.img);
+        if (res.data.files) {
+          console.log(res.data.files, "이미지 데이터 성공");
+          setRoomImg(res.data.files);
+          
         }
       } catch (err) {
+        console.error(err.response.data);
         console.error("이미지 불러오기 실패:", err);
       }
     };
@@ -167,7 +173,7 @@ function RoomApp() {
         <RoomImg handleImageChange={handleImageChange} imageUrls={imageUrls} />
         <RoomCreate roomData={roomData} handleSubmit={handleSubmit} handleChange={handleChange} />
       </div>
-      <RoomManagement roomImg={roomImg} />
+      <RoomManagement roomImg={roomImg} roomList={roomList}/>
     </div>
   );
 }
