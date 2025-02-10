@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-function DayRoomModal({ room, closeModal }) {
-    const [dayRoom, setDayRoom] = useState({
+function DayRoomModal({ room, closeModal, setDayRoom }) {
+    const [dayRoom, updateDayRoom] = useState({
         day_start: '', // 대실 시작 시간
         day_end: '', // 대실 종료 시간
         day_price: '', // 대실 가격
-        day_max :'',
+        day_max: '',
         day_discount: '', // 할인율
         day_disc: '', // 할인 후 금액
         day_count: '', // 대실수량
@@ -18,7 +18,7 @@ function DayRoomModal({ room, closeModal }) {
         const { name, value } = e.target;
 
         // 가격과 할인율이 변경될 때마다 할인 후 금액 계산
-        setDayRoom(prevDayRoom => {
+        updateDayRoom(prevDayRoom => {
             const updatedDayRoom = {
                 ...prevDayRoom,
                 [name]: value,
@@ -44,7 +44,7 @@ function DayRoomModal({ room, closeModal }) {
             return;
         }
         if (dayRoom.day_start && dayRoom.day_end && dayRoom.day_start > dayRoom.day_end) {
-            setDayRoom(prevDayRoom => ({
+            updateDayRoom(prevDayRoom => ({
                 ...prevDayRoom,
                 day_start: ''
             }));
@@ -74,6 +74,7 @@ function DayRoomModal({ room, closeModal }) {
                 },
             });
             if (res.status === 200) {
+                setDayRoom(true)
                 alert("대실 정보가 저장되었습니다.");
                 closeModal();
             }
@@ -118,23 +119,23 @@ function DayRoomModal({ room, closeModal }) {
                         />
                     </div>
                     <div className="day-modal-input">
-                        <label>입장 가능 인원수</label>
+                        <label>대실 이용시간</label>
                         <input
                             type="text"
                             name="day_max"
                             value={dayRoom.day_max}
                             onChange={handleChange}
-                            placeholder='입장 가능 인원수를 입력하세요.'
+                            placeholder='대실 이용시간을 입력하세요.'
                         />
                     </div>
                     <div className="day-modal-input">
-                        <label>가격</label>
+                        <label>금액</label>
                         <input
                             type="number"
                             name="day_price"
                             value={dayRoom.day_price}
                             onChange={handleChange}
-                            placeholder="가격을 입력해주세요."
+                            placeholder="금액을 입력해주세요."
                         />
                     </div>
                     <div className="day-modal-input">

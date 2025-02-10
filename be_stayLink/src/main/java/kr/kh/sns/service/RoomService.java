@@ -23,4 +23,8 @@ public interface RoomService {
     boolean dayInsert(DayRoomVO day);
 
     boolean stayInsert(StayRoomVO stay);
+
+    List<StayRoomVO> getStayList(RoomVO room);
+
+    List<DayRoomVO> getDayList(RoomVO room);
 }

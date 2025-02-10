@@ -21,10 +21,10 @@ function RoomApp() {
     room_lod_num: '',
   });
   const [roomImg, setRoomImg] = useState([]);
-  const [roomList,setRoomList] = useState([]);
+  const [roomList, setRoomList] = useState([]);
   const [imageUrls, setImageUrls] = useState(Array(15).fill(""));
-  const [stayRoom,setStayRoom] = useState(false);
-  const [dayRoom,setDayRoom] = useState(false);
+  const [stayRoom, setStayRoom] = useState([]);
+  const [dayRoom, setDayRoom] = useState([]);
   const handleSubmit = async (e) => {
     console.log(2);
 
@@ -84,8 +84,8 @@ function RoomApp() {
             form.append(key, roomData[key]);
           }
         }
-        form.append("file_fk_num",roomNum);
-     
+        form.append("file_fk_num", roomNum);
+
         const roomFile = await axios.post("/api/room/upload", form, {
           headers: {
             'Content-Type': 'multipart/form-data'
@@ -142,7 +142,6 @@ function RoomApp() {
         const res = await axios.get("/api/room/get", { withCredentials: true });
 
         if (res.data.rooms) {
-          console.log(res.data.rooms, "객실 데이터 성공");
           setRoomList(res.data.rooms);
         }
       } catch (err) {
@@ -156,13 +155,11 @@ function RoomApp() {
       try {
         const res = await axios.get("/api/room/img", { withCredentials: true });
         if (res.data.files) {
-          console.log(res.data.files, "이미지 데이터 성공");
           setRoomImg(res.data.files);
-          
+
         }
       } catch (err) {
         console.error(err.response.data);
-        console.error("이미지 불러오기 실패:", err);
       }
     };
 
@@ -175,7 +172,13 @@ function RoomApp() {
         <RoomImg handleImageChange={handleImageChange} imageUrls={imageUrls} />
         <RoomCreate roomData={roomData} handleSubmit={handleSubmit} handleChange={handleChange} />
       </div>
-      <RoomManagement roomImg={roomImg} roomList={roomList} stayRoom={stayRoom} dayRoom={dayRoom}/>
+      <RoomManagement
+        setDayRoom={setDayRoom}
+        setStayRoom={setStayRoom}
+        roomImg={roomImg}
+        roomList={roomList}
+        stayRoom={stayRoom}
+        dayRoom={dayRoom} />
     </div>
   );
 }

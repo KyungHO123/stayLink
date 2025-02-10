@@ -19,6 +19,15 @@ public class StayRoomVO {
     private int stay_disc;           // 할인액
     private int stay_count;          // 숙박 수
     private int stay_room_num;       // 방 번호
+    private RoomVO room;
+
+    public RoomVO getRoom() {
+        return room;
+    }
+
+    public void setRoom(RoomVO room) {
+        this.room = room;
+    }
 
     public int getStay_num() {
         return stay_num;

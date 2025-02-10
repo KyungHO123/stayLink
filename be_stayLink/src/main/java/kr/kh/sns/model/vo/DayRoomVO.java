@@ -19,6 +19,15 @@ public class DayRoomVO {
     private int day_room_num;    // 객실 번호
     private LocalTime day_start; // 시작 시간
     private LocalTime day_end;   // 종료 시간
+    private RoomVO room;
+
+    public RoomVO getRoom() {
+        return room;
+    }
+
+    public void setRoom(RoomVO room) {
+        this.room = room;
+    }
 
     public int getDay_num() {
         return day_num;

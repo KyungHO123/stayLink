@@ -3,12 +3,12 @@ import RoomDetail from "./roomDetail";
 import DayRoomModal from "./dayRoomModal";
 import StayRoomModal from "./stayRoomModal";
 
-function RoomList({ roomImg, roomList, check, stayRoom, dayRoom }) {
+function RoomList({ roomImg, roomList, check, stayRoom, dayRoom, setDayRoom, setStayRoom }) {
     const [modal, setModal] = useState(false);
     const [detail, setDetail] = useState(null);
     const [newList, setNewList] = useState(roomList);
-    const[dayModal,setDayModal] = useState(false);
-    const[stayModal,setStayModal] = useState(false);
+    const [dayModal, setDayModal] = useState(false);
+    const [stayModal, setStayModal] = useState(false);
 
     const roomDetailOpenModal = (room) => {
         setDetail(room);
@@ -45,22 +45,16 @@ function RoomList({ roomImg, roomList, check, stayRoom, dayRoom }) {
     return (
         <div className="room-content">
             <div className="content-boxR">
-                <div className="all-check-box">
-                    <input type="checkbox" id="check-all" onClick={check} />
-                    <label htmlFor="check-all">전체선택</label>
-                </div>
+
                 {newList && newList.length > 0 ? (
                     newList.map((room, index) => {
                         const roomImage = roomImg.find(img => img.file_fk_num === room.room_num);
-
+                        const stayRoomArray = Array.isArray(stayRoom) ? stayRoom : Object.values(stayRoom);
+                        const haveStay = stayRoomArray.includes(room.room_num);
+                        const DayRoomArray = Array.isArray(dayRoom) ? dayRoom : Object.values(dayRoom);
+                        const haveDay =  DayRoomArray.includes(room.room_num)
                         return (
                             <div className="room">
-                                <input
-                                    style={{ cursor: "pointer" }}
-                                    type="checkbox" id={`chek${index + 1}`} className="checkBox" />
-                                <label
-                                    style={{ cursor: "pointer" }}
-                                    htmlFor={`chek${index + 1}`}>선택</label>
                                 <div className="room-content-img">
                                     {roomImage ? (
                                         <img src={roomImage.img}
@@ -88,7 +82,7 @@ function RoomList({ roomImg, roomList, check, stayRoom, dayRoom }) {
                                     className="room-service">
                                     <div>
                                         <h4 style={{ margin: "0" }}>숙박</h4>
-                                        {stayRoom ?
+                                        {haveStay ?
                                             (<span
                                                 style={{
                                                     cursor: "pointer",
@@ -103,7 +97,7 @@ function RoomList({ roomImg, roomList, check, stayRoom, dayRoom }) {
                                             :
                                             (<span
                                                 key={room.room_num}
-                                                onClick={()=>stayRoomOpenModal(room)}
+                                                onClick={() => stayRoomOpenModal(room)}
                                                 style={{
                                                     cursor: "pointer",
                                                     backgroundColor: "green",
@@ -117,7 +111,7 @@ function RoomList({ roomImg, roomList, check, stayRoom, dayRoom }) {
                                     </div>
                                     <div>
                                         <h4 style={{ margin: "0" }}>대실</h4>
-                                        {dayRoom ?
+                                        {haveDay ?
                                             (<span
                                                 style={{
                                                     cursor: "pointer",
@@ -132,7 +126,7 @@ function RoomList({ roomImg, roomList, check, stayRoom, dayRoom }) {
                                             :
                                             (<span
                                                 key={room.room_num}
-                                                onClick={()=>dayRoomOpenModal(room)}
+                                                onClick={() => dayRoomOpenModal(room)}
                                                 style={{
                                                     cursor: "pointer",
                                                     backgroundColor: "green",
@@ -207,11 +201,13 @@ function RoomList({ roomImg, roomList, check, stayRoom, dayRoom }) {
             )}
             {dayModal && day && (
                 <DayRoomModal
+                    setDayRoom={setDayRoom}
                     room={day}
                     closeModal={closeModal} />
             )}
             {stayModal && stay && (
                 <StayRoomModal
+                    setStayRoom={setDayRoom}
                     room={stay}
                     closeModal={closeModal}
                 />

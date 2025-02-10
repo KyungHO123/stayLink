@@ -29,4 +29,8 @@ public interface RoomDAO {
     boolean dayInsert(@Param("day") DayRoomVO day);
 
     boolean stayInsert(@Param("stay")StayRoomVO stay);
+
+    List<StayRoomVO> getStayList(@Param("num")int roomNum);
+
+    List<DayRoomVO> getDayList(@Param("num")int roomNum);
 }

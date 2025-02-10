@@ -137,7 +137,7 @@ public class RoomController {
 
     @DeleteMapping("/room/img/del")
     public ResponseEntity<Map<String, Object>> deleteRoomImg(
-            @RequestParam("file_num") int file_num ,
+            @RequestParam("file_num") int file_num,
             @RequestParam("file_fk_num") int file_fk_num,
             HttpSession session) {
         System.out.println(file_num);
@@ -156,25 +156,74 @@ public class RoomController {
         map.put("res", check);
         return ResponseEntity.ok(map);
     }
+
     @PostMapping("/room/update")
-    public ResponseEntity<Map<String,Object>> roomUpdate(@RequestBody RoomVO room){
-        Map<String,Object> map = new HashMap<>();
+    public ResponseEntity<Map<String, Object>> roomUpdate(@RequestBody RoomVO room) {
+        Map<String, Object> map = new HashMap<>();
         boolean res = roomService.updateRoom(room);
-        map.put("res",res);
+        map.put("res", res);
         return ResponseEntity.ok(map);
 
     }
+
     @PostMapping("/day/insert")
-    public ResponseEntity<Map<String,Object>> dayInsert(@RequestBody DayRoomVO day){
-        Map<String,Object> map = new HashMap<>();
+    public ResponseEntity<Map<String, Object>> dayInsert(@RequestBody DayRoomVO day) {
+        Map<String, Object> map = new HashMap<>();
         boolean res = roomService.dayInsert(day);
-        map.put("res",res);
+        map.put("res", res);
         return ResponseEntity.ok(map);
-    }  @PostMapping("/stay/insert")
-    public ResponseEntity<Map<String,Object>> stayInsert(@RequestBody StayRoomVO stay){
-        Map<String,Object> map = new HashMap<>();
+    }
+
+    @PostMapping("/stay/insert")
+    public ResponseEntity<Map<String, Object>> stayInsert(@RequestBody StayRoomVO stay) {
+        Map<String, Object> map = new HashMap<>();
         boolean res = roomService.stayInsert(stay);
-        map.put("res",res);
+        map.put("res", res);
+        return ResponseEntity.ok(map);
+    }
+
+    @GetMapping("/stay/get")
+    public ResponseEntity<Map<String, Object>> stayList(HttpSession session) {
+        Map<String, Object> map = new HashMap<>();
+        UserVO user = (UserVO) session.getAttribute("user");
+        LodVO lod = lodService.getUserLod(user);
+        List<RoomVO> rooms = roomService.getRoom(lod.getLod_num());
+        List<StayRoomVO> stayList = new ArrayList<>();
+        boolean check = false;
+        for (RoomVO room : rooms) {
+            List<StayRoomVO> stay = roomService.getStayList(room);
+
+            if (stay != null) {
+                check = true;
+                stayList.addAll(stay);
+            }
+        }
+
+        map.put("data", stayList);
+        map.put("res", check);
+
+        return ResponseEntity.ok(map);
+    }
+    @GetMapping("/day/get")
+    public ResponseEntity<Map<String, Object>> dayList(HttpSession session) {
+        Map<String, Object> map = new HashMap<>();
+        UserVO user = (UserVO) session.getAttribute("user");
+        LodVO lod = lodService.getUserLod(user);
+        List<RoomVO> rooms = roomService.getRoom(lod.getLod_num());
+        List<DayRoomVO> dayList = new ArrayList<>();
+        boolean check = false;
+        for (RoomVO room : rooms) {
+            List<DayRoomVO> day = roomService.getDayList(room);
+
+            if (day != null) {
+                check = true;
+                dayList.addAll(day);
+            }
+        }
+
+        map.put("data", dayList);
+        map.put("res", check);
+
         return ResponseEntity.ok(map);
     }
 

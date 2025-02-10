@@ -1,18 +1,18 @@
-.roomApp{
+.roomApp {
     width: 100%;
     height: 100%;
 }
-.create-container{
+
+.create-container {
     display: flex;
 }
+
 /* 전체 컨테이너 스타일 */
 .room-create-container {
     width: 100%;
     margin: 0 auto; /* 중앙 정렬 */
     padding: 20px;
     border-radius: 10px;
-
- 
 }
 
 /* 폼 내부 요소 정렬 */
@@ -30,22 +30,24 @@
     overflow-y: auto;
     scrollbar-width: none;
 }
-.createLod-imgContainer{
+
+.createLod-imgContainer {
     width: 100%;
     display: block;
     margin: 25px 0;
     border-radius: 10px;
     border: none;
 }
-.room-img-box{
+
+.room-img-box {
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, .1);
     border-radius: 10px;
     padding: 20px;
     width: 92%;
     margin: 0 auto;
-    
 }
-.room-img-content{
+
+.room-img-content {
     display: flex;
     flex-wrap: wrap;
 }
@@ -97,74 +99,84 @@
     border-color: #a18cd1;
 }
 
-.room-manager{
+.room-manager {
     width: 100%;
     height: 100%;
 }
-.room-list-container{
+
+.room-list-container {
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, .1);
     border-radius: 10px;
     margin: 0 auto;
-    width: 96%;
+    width: 95%;
     height: 100%;
-    min-height: 1400px;
-    padding: 30px;
+    padding:80px 30px;
     display: flex;
     flex-direction: column;
-
 }
-.room-content{
+
+.room-content {
     display: flex;
     width: 100%;
     height: 700px;
     gap: 5px;
     margin: 5px;
 }
-.room{
+
+.room {
     border: 1px solid #ccc;
     width: 400px;
-    min-height: 600px;
+    height: 100%;
     margin: 0 auto;
     border-radius: 10px;
-    padding:10px 10px;
-    
+    padding: 10px 10px;
 }
-.room:hover{
+
+.room:hover {
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, .1);
 }
-.room-content-info{
+
+.room-content-info {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 5px;
 }
-.room-content-img{
+
+.room-content-img {
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, .1);
     border-radius: 10px;
-    width: 100%;height: 100%;max-height: 250px;
+    width: 100%;
+    height: 100%;
+    max-height: 250px;
     margin-bottom: 15px;
 }
-.room-content-info-title{
+
+.room-content-info-title {
     margin: 2px;
     display: flex;
 }
-.room-content-info-title>label{
+
+.room-content-info-title > label {
     font-weight: bold;
     font-size: 16px;
 }
-.all-check-box{
+
+.all-check-box {
     padding-left: 30px;
     width: 100%;
 }
-.content-boxR{
+
+.content-boxR {
     width: 95%;
     height: 100%;
     display: flex;
-    flex-wrap: wrap;
-    margin:10px auto;
+    margin: 10px auto;
     gap: 20px;
 }
+
 /* Modal 전체 배경 */
-.modal {
+.modal,
+.day-modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -176,20 +188,6 @@
     align-items: center;
     z-index: 1000;
 }
-.day-modal{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-
 
 /* 객실 정보 제목 스타일 */
 .room-content-info-title {
@@ -207,12 +205,12 @@
 }
 
 /* Modal 내용 */
-.modal-content {
+.modal-content,
+.day-modal-content {
     background-color: white;
     padding: 20px;
     border-radius: 10px;
     width: 100%;
-    max-width: 1600px; /* 최대 너비 */
     overflow-y: auto;
     position: relative;
     display: flex;
@@ -220,18 +218,13 @@
     gap: 10px;
     height: 100%;
 }
-.day-modal-content{
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 100%;
+
+.modal-content {
+    max-width: 1600px; /* 최대 너비 */
+}
+
+.day-modal-content {
     max-width: 600px; /* 최대 너비 */
-    overflow-y: auto;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    height: 100%;
     max-height: 800px;
 }
 
@@ -249,6 +242,7 @@ h2 {
     text-align: center;
     margin-bottom: 20px;
 }
+
 .room-modal-info-title {
     gap: 15px;
     display: flex;
@@ -264,7 +258,8 @@ h2 {
 .room-modal-info-title span {
     color: #555;
 }
-.room-modal-img-box{
+
+.room-modal-img-box {
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, .1);
     border-radius: 10px;
     overflow: hidden;
@@ -272,12 +267,14 @@ h2 {
     width: 100%;
     height: 400px;
 }
-.room-modal-img{
+
+.room-modal-img {
     width: 400px;
     height: 400px;
     border-radius: 10px;
 }
-.room-modal-info{
+
+.room-modal-info {
     padding: 10px 20px;
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, .1);
     border-radius: 10px;
@@ -287,9 +284,10 @@ h2 {
     overflow-y: auto;
     scrollbar-width: none;
 }
-.room-modal-info-title>input,
-.room-modal-info-title>textarea,
-.room-modal-info-title>button{
+
+.room-modal-info-title > input,
+.room-modal-info-title > textarea,
+.room-modal-info-title > button {
     background-color: white;
     padding: 12px;
     font-size: 16px;
@@ -297,17 +295,19 @@ h2 {
     border: 1px solid #ccc;
     border-radius: 10px;
 }
-.room-modal-info-title>textarea{
+
+.room-modal-info-title > textarea {
     min-height: 300px;
 }
 
-.room-modal-info-title>button:hover{
+.room-modal-info-title > button:hover {
     cursor: pointer;
     background-color: #a18cd1;
     border-color: #a18cd1;
     color: white;
 }
-.room-img-del-btn{
+
+.room-img-del-btn {
     position: absolute;
     top: 15px;
     right: 20px;
@@ -320,25 +320,29 @@ h2 {
     display: flex;
     justify-content: center;
 }
-.room-img-del-btn:hover{
+
+.room-img-del-btn:hover {
     background: red;
     color: #fff;
 }
-.day-modal-input{
+
+.day-modal-input {
     display: flex;
     flex-direction: column;
     margin-bottom: 10px;
 }
-.day-modal-input>input{
+
+.day-modal-input > input {
     outline: none;
     padding: 12px;
     border: 1px solid #ccc;
     font-size: 16px;
     border-radius: 10px;
 }
-.day-modal-btn>button{
+
+.day-modal-btn > button {
     margin-top: 20px;
-    width: 100%;    
+    width: 100%;
     padding: 12px;
     outline: none;
     border: 1px solid #ccc;
@@ -346,13 +350,116 @@ h2 {
     border-radius: 10px;
     background-color: #fff;
 }
-.day-modal-btn>button:hover{
+
+.day-modal-btn > button:hover {
     background-color: #a18cd1;
     border-color: #a18cd1;
     color: #fff;
     cursor: pointer;
 }
-.day-modal-btn>button:active{
+
+.day-modal-btn > button:active {
     background-color: #7a5195;
     color: #fff;
 }
+
+.room-list-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    gap: 20px;
+}
+
+.room-list {
+    width: 100%;
+    height: 100%;
+}
+
+.stay-day-box {
+    gap: 15px;
+    padding:30px 24px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+.stay-list-box,.day-list-box{
+    padding:10px 20px;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, .1);
+    border-radius: 10px;
+}
+.stay-table {
+    width: 100%;
+    
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background: #fff;
+}
+
+.stay-thead {
+    background: #a18cd1;
+    color: white;
+    font-weight: bold;
+}
+
+.stay-thead th {
+    padding: 12px;
+    border-bottom: 2px solid #333;
+}
+
+.stay-tbody {
+    background: #f9f9f9;
+}
+
+.stay-tbody tr {
+    transition: background 0.3s;
+}
+
+.stay-tbody tr:hover {
+    background: #f5f2fb;
+}
+
+.stay-tbody td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.stay-tbody td:last-child {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+.stay-tbody button {
+    padding: 6px 12px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: 0.2s;
+}
+
+.stay-tbody button:first-child {
+    background: #ff9800; /* 주황색 */
+    color: white;
+}
+
+.stay-tbody button:first-child:hover {
+    background: #e68900;
+}
+
+.stay-tbody button:last-child {
+    background: #f44336; /* 빨간색 */
+    color: white;
+}
+
+.stay-tbody button:last-child:hover {
+    background: #d32f2f;
+}
+
+

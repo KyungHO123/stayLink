@@ -34,11 +34,11 @@ function StayRoomModal({ room, closeModal }) {
     };
 
     const handleSave = async () => {
-        if(!stayRoom){
+        if (!stayRoom) {
             alert("모든 정보를 입력해주세요.");
             return;
         }
-        if(stayRoom.stay_count > room.room_count){
+        if (stayRoom.stay_count > room.room_count) {
             alert("숙박 가능 객실수가 현재 객실수보다 많습니다.");
             setStayRoom(prev => ({
                 ...prev,
@@ -53,6 +53,7 @@ function StayRoomModal({ room, closeModal }) {
                 },
             });
             if (res.status === 200) {
+                setStayRoom(true);
                 alert("숙박 정보가 저장되었습니다.");
                 closeModal();  // 저장 후 모달 닫기
             }

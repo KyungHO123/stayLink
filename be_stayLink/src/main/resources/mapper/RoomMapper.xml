@@ -88,6 +88,60 @@
         #{stay.stay_room_num}
         )
     </insert>
+    <!--    stay에서 역으로 조인-->
+    <resultMap id="stayMap" type="StayRoomVO">
+        <id property="stay_num" column="stay_num"/>
+        <result property="stay_in" column="stay_in"/>
+        <result property="stay_out" column="stay_out"/>
+        <result property="stay_discount" column="stay_discount"/>
+        <result property="stay_price" column="stay_price"/>
+        <result property="stay_disc" column="stay_disc"/>
+        <result property="stay_count" column="stay_count"/>
+        <result property="stay_room_num" column="stay_room_num"/>
 
+        <association property="room" javaType="RoomVO">
+            <id property="room_num" column="stay_room_num"/>
+            <result property="room_name" column="room_name"/>
+            <result property="room_count" column="room_count"/>
+            <result property="room_max" column="room_max"/>
+            <result property="room_min" column="room_min"/>
+            <result property="room_bed" column="room_bed"/>
+            <result property="room_size" column="room_size"/>
+            <result property="room_smoke" column="room_smoke"/>
+            <result property="room_detail" column="room_detail"/>
+        </association>
+    </resultMap>
+
+    <select id="getStayList" resultMap="stayMap">
+        select * from stayRoom join room on stay_room_num = room_num where stay_room_num = #{num}
+    </select>
+
+
+    <resultMap id="dayMap" type="DayRoomVO">
+        <id property="day_num" column="day_num"/>
+        <result property="day_max" column="day_max"/>
+        <result property="day_discount" column="day_discount"/>
+        <result property="day_price" column="day_price"/>
+        <result property="day_disc" column="day_disc"/>
+        <result property="day_count" column="day_count"/>
+        <result property="day_room_num" column="day_room_num"/>
+        <result property="day_start" column="day_start"/>
+        <result property="day_end" column="day_end"/>
+
+        <association property="room" javaType="RoomVO">
+            <id property="room_num" column="day_room_num"/>
+            <result property="room_name" column="room_name"/>
+            <result property="room_count" column="room_count"/>
+            <result property="room_max" column="room_max"/>
+            <result property="room_min" column="room_min"/>
+            <result property="room_bed" column="room_bed"/>
+            <result property="room_size" column="room_size"/>
+            <result property="room_smoke" column="room_smoke"/>
+            <result property="room_detail" column="room_detail"/>
+        </association>
+    </resultMap>
+    <select id="getDayList" resultMap="dayMap">
+        select * from dayRoom join room on day_room_num = room_num where day_room_num = #{num}
+    </select>
 
 </mapper>

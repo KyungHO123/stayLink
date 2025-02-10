@@ -120,4 +120,18 @@ public class RoomServiceImp implements RoomService {
         return false;
         return roomDao.stayInsert(stay);
     }
+
+    @Override
+    public List<StayRoomVO> getStayList(RoomVO room) {
+        if (room == null)
+            return null;
+        return roomDao.getStayList(room.getRoom_num());
+    }
+
+    @Override
+    public List<DayRoomVO> getDayList(RoomVO room) {
+        if (room == null)
+            return null;
+        return roomDao.getDayList(room.getRoom_num());
+    }
 }
