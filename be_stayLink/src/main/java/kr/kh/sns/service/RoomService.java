@@ -19,4 +19,6 @@ public interface RoomService {
     List<RoomVO> getLodRoom(LodVO lod);
 
     boolean deleteFile(int file, RoomVO room);
+
+    boolean updateRoom(RoomVO room);
 }

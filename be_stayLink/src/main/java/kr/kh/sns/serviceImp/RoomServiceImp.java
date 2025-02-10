@@ -92,13 +92,19 @@ public class RoomServiceImp implements RoomService {
         if (fileDelete.exists()) {
             if (fileDelete.delete()) {
                 roomDao.roomImgDelete(fileDb.getFile_num());
-                System.out.println("파일 삭제 성공");
                 return true;
             } else {
-                System.out.println("실패");
                 return false;
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean updateRoom(RoomVO room) {
+        if(room == null){
+            return false;
+        }
+        return roomDao.updateRoom(room);
     }
 }

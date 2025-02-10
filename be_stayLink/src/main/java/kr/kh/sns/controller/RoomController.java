@@ -159,5 +159,13 @@ public class RoomController {
         map.put("res", check);
         return ResponseEntity.ok(map);
     }
+    @PostMapping("/room/update")
+    public ResponseEntity<Map<String,Object>> roomUpdate(@RequestBody RoomVO room){
+        Map<String,Object> map = new HashMap<>();
+        boolean res = roomService.updateRoom(room);
+        map.put("res",res);
+        return ResponseEntity.ok(map);
+
+    }
 
 }

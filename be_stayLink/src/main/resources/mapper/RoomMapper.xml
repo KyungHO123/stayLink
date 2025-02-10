@@ -31,4 +31,17 @@
     <delete id="roomImgDelete">
         delete from file where file_num = #{num}
     </delete>
+    <update id="updateRoom">
+        UPDATE room
+        SET
+        room_name = #{ro.room_name},
+        room_count = #{ro.room_count},
+        room_max = #{ro.room_max},
+        room_min = #{ro.room_min},
+        room_bed = #{ro.room_bed},
+        room_size = #{ro.room_size},
+        room_smoke = #{ro.room_smoke},
+        room_detail = #{ro.room_detail}
+        WHERE room_num = #{ro.room_num}
+    </update>
 </mapper>

@@ -21,4 +21,6 @@ public interface RoomDAO {
     FileVO getDeleteFile(@Param("num") int fileNum);
 
     void roomImgDelete(@Param("num")int fileNum);
+
+    boolean updateRoom(@Param("ro")RoomVO room);
 }

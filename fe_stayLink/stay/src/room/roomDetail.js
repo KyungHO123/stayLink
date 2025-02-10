@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from 'axios';
 
-function RoomDetail({ room, closeModal, roomImg }) {
+function RoomDetail({ room, closeModal, roomImg,handleRoomUpdate }) {
     const [roomData, setRoomData] = useState(room);
     const [imageFiles, setImageFiles] = useState([]);
 
@@ -53,8 +53,15 @@ function RoomDetail({ room, closeModal, roomImg }) {
         }
     };
 
-    // 저장하기 버튼 클릭 시 호출될 함수
-    const handleSave = () => {
+    // 저장하기
+    const handleSave = async () => {
+        const res = await axios.post("/api/room/update", roomData, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        window.location.reload(); 
+        handleRoomUpdate(res.data);
         alert("저장 되었습니다.");
         closeModal();  // 저장 후 모달 닫기
     };
@@ -65,10 +72,9 @@ function RoomDetail({ room, closeModal, roomImg }) {
                 <span className="close" onClick={closeModal}>&times;</span>
                 <h2>{room.room_name} 객실 정보</h2>
 
-                {/* 객실 이미지들 출력 */}
                 <div className="room-modal-img-box">
                     {imgs.map((img, index) => (
-                        <form onSubmit={(e) => handleImageDelete(e,index, true, img)} >
+                        <form onSubmit={(e) => handleImageDelete(e, index, true, img)} >
                             <div key={index} style={{ position: 'relative', display: 'inline-block', marginBottom: '10px' }}>
                                 <img
                                     className="room-modal-img"
@@ -82,7 +88,6 @@ function RoomDetail({ room, closeModal, roomImg }) {
                             </div>
                         </form>
                     ))}
-                    {/* 미리보기 이미지들 출력 */}
                     {imageFiles.length > 0 && imageFiles.map((image, index) => (
                         <form onSubmit={(e) => handleImageDelete(e, index, false)} >
                             <div key={index} style={{ position: 'relative', display: 'inline-block', marginBottom: '10px' }}>
@@ -92,9 +97,7 @@ function RoomDetail({ room, closeModal, roomImg }) {
                                     alt={`미리보기 이미지 ${index + 1}`}
                                 />
                                 {/* 삭제 버튼 (X) */}
-                                <button className="room-img-del-btn"
-                                // 미리보기 이미지 삭제
-                                >
+                                <button className="room-img-del-btn">
                                     X
                                 </button>
                             </div>
