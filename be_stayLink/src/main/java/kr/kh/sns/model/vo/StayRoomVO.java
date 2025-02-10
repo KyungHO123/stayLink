@@ -4,14 +4,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.sql.Time;
+import java.time.LocalTime;
 
 //숙박객실 VO
 @Data
 @NoArgsConstructor
 public class StayRoomVO {
     private int stay_num;            // 숙박 번호 (기본 키)
-    private int stay_in;             // 체크인 시간
-    private int stay_out;            // 체크아웃 시간
+    private LocalTime stay_in;             // 체크인 시간
+    private LocalTime stay_out;            // 체크아웃 시간
     private BigDecimal stay_discount; // 할인 금액
     private int stay_price;          // 가격
     private int stay_disc;           // 할인액
@@ -26,19 +28,19 @@ public class StayRoomVO {
         this.stay_num = stay_num;
     }
 
-    public int getStay_in() {
+    public LocalTime getStay_in() {
         return stay_in;
     }
 
-    public void setStay_in(int stay_in) {
+    public void setStay_in(LocalTime stay_in) {
         this.stay_in = stay_in;
     }
 
-    public int getStay_out() {
+    public LocalTime getStay_out() {
         return stay_out;
     }
 
-    public void setStay_out(int stay_out) {
+    public void setStay_out(LocalTime stay_out) {
         this.stay_out = stay_out;
     }
 

@@ -1,21 +1,27 @@
 import React, { useState, useEffect } from "react";
 import RoomDetail from "./roomDetail";
+import DayRoomModal from "./dayRoomModal";
+import StayRoomModal from "./stayRoomModal";
 
-function RoomList({ roomImg, roomList, check }) {
+function RoomList({ roomImg, roomList, check, stayRoom, dayRoom }) {
     const [modal, setModal] = useState(false);
     const [detail, setDetail] = useState(null);
     const [newList, setNewList] = useState(roomList);
-    const openModal = (room) => {
-        console.log(room)
+    const[dayModal,setDayModal] = useState(false);
+    const[stayModal,setStayModal] = useState(false);
+
+    const roomDetailOpenModal = (room) => {
         setDetail(room);
         setModal(true);
     };
     useEffect(() => {
         setNewList(roomList);
     }, [roomList]);
-    
+
     const closeModal = () => {
         setModal(false);
+        setDayModal(false);
+        setStayModal(false);
     }
     const handleRoomUpdate = (updateRoom) => {
         const updateList = newList.map(room =>
@@ -23,6 +29,18 @@ function RoomList({ roomImg, roomList, check }) {
         );
         setNewList(updateList);
     }
+    const [day, setDay] = useState(null);
+    const [stay, setStay] = useState(null);
+    const dayRoomOpenModal = (room) => {
+        setDay(room);
+        setDayModal(true);
+    }
+    const stayRoomOpenModal = (room) => {
+        setStay(room);
+        setStayModal(true);
+
+    }
+
 
     return (
         <div className="room-content">
@@ -36,9 +54,13 @@ function RoomList({ roomImg, roomList, check }) {
                         const roomImage = roomImg.find(img => img.file_fk_num === room.room_num);
 
                         return (
-                            <div className="room" key={room.room_num} onClick={() => openModal(room)}>
-                                <input type="checkbox" id={`chek${index + 1}`} className="checkBox" />
-                                <label htmlFor={`chek${index + 1}`}>선택</label>
+                            <div className="room">
+                                <input
+                                    style={{ cursor: "pointer" }}
+                                    type="checkbox" id={`chek${index + 1}`} className="checkBox" />
+                                <label
+                                    style={{ cursor: "pointer" }}
+                                    htmlFor={`chek${index + 1}`}>선택</label>
                                 <div className="room-content-img">
                                     {roomImage ? (
                                         <img src={roomImage.img}
@@ -58,6 +80,72 @@ function RoomList({ roomImg, roomList, check }) {
                                         >이미지가 없습니다.</span>
                                     )}
                                 </div>
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        gap: "10px"
+                                    }}
+                                    className="room-service">
+                                    <div>
+                                        <h4 style={{ margin: "0" }}>숙박</h4>
+                                        {stayRoom ?
+                                            (<span
+                                                style={{
+                                                    cursor: "pointer",
+                                                    backgroundColor: "red",
+                                                    color: "white",
+                                                    fontWeight: "bold",
+                                                    padding: "2px",
+                                                    borderRadius: "10px"
+
+                                                }}
+                                            >등록중</span>)
+                                            :
+                                            (<span
+                                                key={room.room_num}
+                                                onClick={()=>stayRoomOpenModal(room)}
+                                                style={{
+                                                    cursor: "pointer",
+                                                    backgroundColor: "green",
+                                                    color: "white",
+                                                    fontWeight: "bold",
+                                                    padding: "2px",
+                                                    borderRadius: "10px"
+
+                                                }}
+                                            >등록가능</span>)}
+                                    </div>
+                                    <div>
+                                        <h4 style={{ margin: "0" }}>대실</h4>
+                                        {dayRoom ?
+                                            (<span
+                                                style={{
+                                                    cursor: "pointer",
+                                                    backgroundColor: "red",
+                                                    color: "white",
+                                                    fontWeight: "bold",
+                                                    padding: "2px",
+                                                    borderRadius: "10px"
+
+                                                }}
+                                            >등록중</span>)
+                                            :
+                                            (<span
+                                                key={room.room_num}
+                                                onClick={()=>dayRoomOpenModal(room)}
+                                                style={{
+                                                    cursor: "pointer",
+                                                    backgroundColor: "green",
+                                                    color: "white",
+                                                    fontWeight: "bold",
+                                                    padding: "2px",
+                                                    borderRadius: "10px"
+
+                                                }}
+                                            >등록가능</span>)}
+                                    </div>
+                                </div>
+                                <hr />
                                 <div className="room-content-info">
                                     <div className="room-content-info-title">
                                         <label>객실명 :</label>
@@ -87,6 +175,20 @@ function RoomList({ roomImg, roomList, check }) {
                                         <label>상세내용 :</label>
                                         <span>{room.room_detail}</span>
                                     </div>
+                                    <div
+                                        key={room.room_num} onClick={() => roomDetailOpenModal(room)}
+                                        style={{
+                                            width: "200px",
+                                            margin: "0 auto",
+                                            textAlign: "center",
+                                            border: "1px solid #ccc",
+                                            padding: "5px",
+                                            borderRadius: "10px",
+                                            cursor: "pointer"
+                                        }}
+                                        className="room-content-modal">
+                                        <span>상세보기</span>
+                                    </div>
                                 </div>
                             </div>
                         );
@@ -101,6 +203,17 @@ function RoomList({ roomImg, roomList, check }) {
                     closeModal={closeModal}
                     roomImg={roomImg}
                     handleRoomUpdate={handleRoomUpdate} // RoomDetail로 상태 업데이트 전달
+                />
+            )}
+            {dayModal && day && (
+                <DayRoomModal
+                    room={day}
+                    closeModal={closeModal} />
+            )}
+            {stayModal && stay && (
+                <StayRoomModal
+                    room={stay}
+                    closeModal={closeModal}
                 />
             )}
         </div>

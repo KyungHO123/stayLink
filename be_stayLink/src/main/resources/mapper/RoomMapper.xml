@@ -44,4 +44,50 @@
         room_detail = #{ro.room_detail}
         WHERE room_num = #{ro.room_num}
     </update>
+    <insert id="dayInsert" parameterType="DayRoomVO">
+        INSERT INTO dayroom (
+        day_max,
+        day_discount,
+        day_price,
+        day_disc,
+        day_count,
+        day_room_num,
+        day_start,
+        day_end
+        )
+        VALUES (
+        #{day.day_max},
+        #{day.day_discount},
+        #{day.day_price},
+        #{day.day_disc},
+        #{day.day_count},
+        #{day.day_room_num},
+        #{day.day_start},
+        #{day.day_end}
+        )
+    </insert>
+    <insert id="stayInsert">
+        insert into stayroom(
+        stay_num,
+        stay_in,
+        stay_out,
+        stay_discount,
+        stay_price,
+        stay_disc,
+        stay_count,
+        stay_room_num
+        )
+        values(
+        #{stay.stay_num},
+        #{stay.stay_in},
+        #{stay.stay_out},
+        #{stay.stay_discount},
+        #{stay.stay_price},
+        #{stay.stay_disc},
+        #{stay.stay_count},
+        #{stay.stay_room_num}
+        )
+    </insert>
+
+
 </mapper>

@@ -1,9 +1,7 @@
 package kr.kh.sns.serviceImp;
 
 import kr.kh.sns.DAO.RoomDAO;
-import kr.kh.sns.model.vo.FileVO;
-import kr.kh.sns.model.vo.LodVO;
-import kr.kh.sns.model.vo.RoomVO;
+import kr.kh.sns.model.vo.*;
 import kr.kh.sns.service.RoomService;
 import kr.kh.sns.utils.UploadFileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,5 +104,20 @@ public class RoomServiceImp implements RoomService {
             return false;
         }
         return roomDao.updateRoom(room);
+    }
+
+    @Override
+    public boolean dayInsert(DayRoomVO day) {
+        if(day == null)
+        return false;
+
+        return roomDao.dayInsert(day);
+    }
+
+    @Override
+    public boolean stayInsert(StayRoomVO stay) {
+        if (stay == null)
+        return false;
+        return roomDao.stayInsert(stay);
     }
 }

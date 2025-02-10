@@ -1,7 +1,7 @@
 import React from "react";
 import RoomList from "./roomList";
 
-function RoomManager({ roomImg, roomList }) {
+function RoomManager({ roomImg, roomList, stayRoom, dayRoom }) {
     const check = () => {
         const checkboxes = document.querySelectorAll('.checkBox');
         checkboxes.forEach(checkbox => {
@@ -11,10 +11,15 @@ function RoomManager({ roomImg, roomList }) {
     return (
         <div className="room-manager">
             <div className="room-list-container">
-                <div style={{width:"200px",margin:"0 auto",height:"50px"}}>
-                    <h1 style={{margin:"0",padding:"0"}}>객실관리</h1>
+                <div style={{ width: "200px", margin: "0 auto", height: "50px" }}>
+                    <h1 style={{ margin: "0", padding: "0" }}>객실관리</h1>
                 </div>
-                <RoomList roomImg={roomImg} roomList={roomList} check={check}/>
+                <RoomList
+                    stayRoom={stayRoom}
+                    dayRoom={dayRoom}
+                    roomImg={roomImg}
+                    roomList={roomList}
+                    check={check} />
                 {/* 
                 남은 기능 
                     - 객실 페이지네이션

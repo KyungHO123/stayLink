@@ -1,7 +1,9 @@
 package kr.kh.sns.DAO;
 
+import kr.kh.sns.model.vo.DayRoomVO;
 import kr.kh.sns.model.vo.FileVO;
 import kr.kh.sns.model.vo.RoomVO;
+import kr.kh.sns.model.vo.StayRoomVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -23,4 +25,8 @@ public interface RoomDAO {
     void roomImgDelete(@Param("num")int fileNum);
 
     boolean updateRoom(@Param("ro")RoomVO room);
+
+    boolean dayInsert(@Param("day") DayRoomVO day);
+
+    boolean stayInsert(@Param("stay")StayRoomVO stay);
 }

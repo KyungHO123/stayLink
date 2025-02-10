@@ -1,10 +1,7 @@
 package kr.kh.sns.controller;
 
 import jakarta.servlet.http.HttpSession;
-import kr.kh.sns.model.vo.FileVO;
-import kr.kh.sns.model.vo.LodVO;
-import kr.kh.sns.model.vo.RoomVO;
-import kr.kh.sns.model.vo.UserVO;
+import kr.kh.sns.model.vo.*;
 import kr.kh.sns.service.LodService;
 import kr.kh.sns.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -166,6 +163,19 @@ public class RoomController {
         map.put("res",res);
         return ResponseEntity.ok(map);
 
+    }
+    @PostMapping("/day/insert")
+    public ResponseEntity<Map<String,Object>> dayInsert(@RequestBody DayRoomVO day){
+        Map<String,Object> map = new HashMap<>();
+        boolean res = roomService.dayInsert(day);
+        map.put("res",res);
+        return ResponseEntity.ok(map);
+    }  @PostMapping("/stay/insert")
+    public ResponseEntity<Map<String,Object>> stayInsert(@RequestBody StayRoomVO stay){
+        Map<String,Object> map = new HashMap<>();
+        boolean res = roomService.stayInsert(stay);
+        map.put("res",res);
+        return ResponseEntity.ok(map);
     }
 
 }

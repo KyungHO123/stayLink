@@ -1,8 +1,6 @@
 package kr.kh.sns.service;
 
-import kr.kh.sns.model.vo.FileVO;
-import kr.kh.sns.model.vo.LodVO;
-import kr.kh.sns.model.vo.RoomVO;
+import kr.kh.sns.model.vo.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -21,4 +19,8 @@ public interface RoomService {
     boolean deleteFile(int file, RoomVO room);
 
     boolean updateRoom(RoomVO room);
+
+    boolean dayInsert(DayRoomVO day);
+
+    boolean stayInsert(StayRoomVO stay);
 }

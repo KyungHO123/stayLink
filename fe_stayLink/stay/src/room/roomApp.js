@@ -23,6 +23,8 @@ function RoomApp() {
   const [roomImg, setRoomImg] = useState([]);
   const [roomList,setRoomList] = useState([]);
   const [imageUrls, setImageUrls] = useState(Array(15).fill(""));
+  const [stayRoom,setStayRoom] = useState(false);
+  const [dayRoom,setDayRoom] = useState(false);
   const handleSubmit = async (e) => {
     console.log(2);
 
@@ -173,7 +175,7 @@ function RoomApp() {
         <RoomImg handleImageChange={handleImageChange} imageUrls={imageUrls} />
         <RoomCreate roomData={roomData} handleSubmit={handleSubmit} handleChange={handleChange} />
       </div>
-      <RoomManagement roomImg={roomImg} roomList={roomList}/>
+      <RoomManagement roomImg={roomImg} roomList={roomList} stayRoom={stayRoom} dayRoom={dayRoom}/>
     </div>
   );
 }

@@ -123,7 +123,6 @@
 .room{
     border: 1px solid #ccc;
     width: 400px;
-    height: 100%;
     min-height: 600px;
     margin: 0 auto;
     border-radius: 10px;
@@ -132,7 +131,6 @@
 }
 .room:hover{
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, .1);
-    cursor: pointer;
 }
 .room-content-info{
     display: flex;
@@ -159,7 +157,7 @@
 }
 .content-boxR{
     width: 95%;
-    height: 95%;
+    height: 100%;
     display: flex;
     flex-wrap: wrap;
     margin:10px auto;
@@ -167,6 +165,18 @@
 }
 /* Modal 전체 배경 */
 .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.day-modal{
     position: fixed;
     top: 0;
     left: 0;
@@ -208,6 +218,21 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    height: 100%;
+}
+.day-modal-content{
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 600px; /* 최대 너비 */
+    overflow-y: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 100%;
+    max-height: 800px;
 }
 
 /* Close 버튼 */
@@ -297,5 +322,37 @@ h2 {
 }
 .room-img-del-btn:hover{
     background: red;
+    color: #fff;
+}
+.day-modal-input{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+.day-modal-input>input{
+    outline: none;
+    padding: 12px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    border-radius: 10px;
+}
+.day-modal-btn>button{
+    margin-top: 20px;
+    width: 100%;    
+    padding: 12px;
+    outline: none;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    border-radius: 10px;
+    background-color: #fff;
+}
+.day-modal-btn>button:hover{
+    background-color: #a18cd1;
+    border-color: #a18cd1;
+    color: #fff;
+    cursor: pointer;
+}
+.day-modal-btn>button:active{
+    background-color: #7a5195;
     color: #fff;
 }
