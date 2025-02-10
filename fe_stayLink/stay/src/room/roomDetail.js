@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import axios from 'axios';
 
-function RoomDetail({ room, closeModal, roomImg,handleRoomUpdate }) {
+function RoomDetail({ room, closeModal, roomImg, handleRoomUpdate }) {
     const [roomData, setRoomData] = useState(room);
     const [imageFiles, setImageFiles] = useState([]);
+    const [imagePreviews, setImagePreviews] = useState([]);
 
     // 해당 객실에 해당하는 이미지들 필터링
     const imgs = roomImg.filter(img => img.file_fk_num === room.room_num);
@@ -17,12 +18,25 @@ function RoomDetail({ room, closeModal, roomImg,handleRoomUpdate }) {
         });
     };
 
-    // 이미지 업로드 핸들러
     const handleImageChange = (e) => {
-        const files = Array.from(e.target.files);
-        const imageUrls = files.map(file => URL.createObjectURL(file));
-        setImageFiles([...imageFiles, ...imageUrls]);
+        const files = Array.from(e.target.files); // 파일 배열로 변환
+        const imageUrls = files.map(file => URL.createObjectURL(file)); // 이미지 미리보기 URL 생성
+    
+        // 미리보기 URL을 상태에 저장
+        setImagePreviews(prevPreviews => [...prevPreviews, ...imageUrls]);
+    
+        // imageFiles에 파일 객체를 추가
+        const newImageFiles = [...imageFiles];
+        files.forEach((file, index) => {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                newImageFiles[index] = file; // 파일 객체 업데이트
+                setImageFiles([...newImageFiles]); // 상태 업데이트
+            };
+            reader.readAsDataURL(file); // 파일을 DataURL로 읽어들임
+        });
     };
+    
 
     // 이미지 삭제 핸들러
     const handleImageDelete = async (e, index, isUpload = false, img) => {
@@ -60,11 +74,31 @@ function RoomDetail({ room, closeModal, roomImg,handleRoomUpdate }) {
                 'Content-Type': 'application/json',
             },
         });
-        window.location.reload(); 
-        handleRoomUpdate(res.data);
-        alert("저장 되었습니다.");
-        closeModal();  // 저장 후 모달 닫기
+
+        if (res.status === 200) {
+            const formData = new FormData();
+
+            // 이미지 파일이 있을 경우
+            if (imageFiles.length > 0) {
+                imageFiles.forEach((file) => {
+                    formData.append("files", file);
+                });
+
+                formData.append('file_fk_num', roomData.room_num);
+                await axios.post("/api/room/upload", formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                })
+            }
+
+            window.location.reload(); // 성공적으로 업로드 후 새로고침
+            alert("저장 되었습니다.");
+            closeModal();
+
+        }
     };
+
 
     return (
         <div className="modal">
@@ -88,7 +122,7 @@ function RoomDetail({ room, closeModal, roomImg,handleRoomUpdate }) {
                             </div>
                         </form>
                     ))}
-                    {imageFiles.length > 0 && imageFiles.map((image, index) => (
+                    {imagePreviews.length > 0 && imagePreviews.map((image, index) => (
                         <form onSubmit={(e) => handleImageDelete(e, index, false)} >
                             <div key={index} style={{ position: 'relative', display: 'inline-block', marginBottom: '10px' }}>
                                 <img
