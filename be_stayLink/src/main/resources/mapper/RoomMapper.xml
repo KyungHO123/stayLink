@@ -24,6 +24,11 @@
     <select id="getRoomImg" resultType="kr.kh.sns.model.vo.FileVO">
         select * from file where file_fk_num = #{num} and file_type = '객실사진'
         order by file_num
-        limit 1
     </select>
+    <select id="getDeleteFile" resultType="kr.kh.sns.model.vo.FileVO">
+        select * from file where file_num=#{num}
+    </select>
+    <delete id="roomImgDelete">
+        delete from file where file_num = #{num}
+    </delete>
 </mapper>

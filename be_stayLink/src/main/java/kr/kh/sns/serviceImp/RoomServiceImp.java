@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
 
 @Service
@@ -42,29 +43,29 @@ public class RoomServiceImp implements RoomService {
     public boolean roomCreate(RoomVO room, int lodNum) {
         if (room == null)
             return false;
-        return roomDao.insertRoom(room,lodNum);
+        return roomDao.insertRoom(room, lodNum);
     }
 
     @Override
     public List<RoomVO> getRoom(int roomLodNum) {
-        List<RoomVO>rooms = roomDao.getRoom(roomLodNum);
+        List<RoomVO> rooms = roomDao.getRoom(roomLodNum);
         return rooms;
     }
 
     @Override
     public boolean uploadFiles(MultipartFile[] files, int lod) {
-        if(files == null || files.length==0){
+        if (files == null || files.length == 0) {
             return false;
         }
-        for (MultipartFile file : files){
+        for (MultipartFile file : files) {
             uploadFile(lod, file);
         }
         return true;
     }
 
     @Override
-    public FileVO getRoomFile(RoomVO room) {
-        if(room == null)
+    public List<FileVO> getRoomFile(RoomVO room) {
+        if (room == null)
             return null;
 
         return roomDao.getRoomImg(room.getRoom_num());
@@ -72,9 +73,32 @@ public class RoomServiceImp implements RoomService {
 
     @Override
     public List<RoomVO> getLodRoom(LodVO lod) {
-        if(lod == null)
-        return null;
+        if (lod == null)
+            return null;
 
         return roomDao.getLodRoom(lod.getLod_num());
+    }
+
+    @Override
+    public boolean deleteFile(int file_num, RoomVO room) {
+        if ( room == null)
+            return false;
+        FileVO fileDb = roomDao.getDeleteFile(file_num);
+        if (fileDb == null || fileDb.getFile_fk_num() != room.getRoom_num()) {
+            return false;
+        }
+        String path = "D:/study/stayLink";
+        File fileDelete = new File(path + fileDb.getFilePath());
+        if (fileDelete.exists()) {
+            if (fileDelete.delete()) {
+                roomDao.roomImgDelete(fileDb.getFile_num());
+                System.out.println("파일 삭제 성공");
+                return true;
+            } else {
+                System.out.println("실패");
+                return false;
+            }
+        }
+        return false;
     }
 }

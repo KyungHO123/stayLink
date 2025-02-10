@@ -16,5 +16,9 @@ public interface RoomDAO {
 
     List<RoomVO> getLodRoom(@Param("num") int lodNum);
 
-   FileVO getRoomImg(@Param("num")int roomNum);
+    List<FileVO>  getRoomImg(@Param("num")int roomNum);
+
+    FileVO getDeleteFile(@Param("num") int fileNum);
+
+    void roomImgDelete(@Param("num")int fileNum);
 }

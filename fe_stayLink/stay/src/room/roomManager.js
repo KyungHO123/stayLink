@@ -1,8 +1,9 @@
 import React from "react";
+import RoomList from "./roomList";
 
 function RoomManager({ roomImg, roomList }) {
     const check = () => {
-        const checkboxes = document.querySelectorAll('#chek');
+        const checkboxes = document.querySelectorAll('.checkBox');
         checkboxes.forEach(checkbox => {
             checkbox.checked = !checkbox.checked;
         });
@@ -10,69 +11,28 @@ function RoomManager({ roomImg, roomList }) {
     return (
         <div className="room-manager">
             <div className="room-list-container">
-
-                <div className="room-content">
-                    <div className="content-boxR">
-                        <div className="all-check-box">
-                            <input type="checkbox" id="check-all" onClick={check} />
-                            <span>전체선택</span>
-                        </div>
-                        {roomList && roomList.length > 0 ? (
-                            roomList.map((room, index) => {
-                                const roomImage = (Array.isArray(roomImg) ? roomImg : []).find(
-                                    img => {
-                                        return img.file_fk_num === room.room_num
-                                    });
-
-
-                                return (
-                                    <div className="room" key={room.room_num}>
-                                        <input type="checkbox" id="chek" />
-                                        <span>선택</span>
-                                        <div className="room-content-img">
-                                            <img src={roomImage?.img || ""}
-                                                alt={`객실이미지${index + 1} `}
-                                                style={{ width: "100%", height: "100%",borderRadius:"10px" }} />
-                                        </div>
-                                        <div className="room-content-info">
-                                            <div className="room-content-info-title">
-                                                <label>객실명 :</label>
-                                                <span>{room.room_name}</span>
-                                            </div>
-                                            <div className="room-content-info-title">
-                                                <label>객실수 :</label>
-                                                <span>{room.room_count}개</span>
-                                            </div>
-                                            <div className="room-content-info-title">
-                                                <label>최소,대 인원 :</label>
-                                                <span>{room.room_min}명~{room.room_max}명</span>
-                                            </div>
-                                            <div className="room-content-info-title">
-                                                <label>흡연여부 :</label>
-                                                <span>{room.room_smoke ==="Y"?"흡연가능":"흡연불가"}</span>
-                                            </div>
-                                            <div className="room-content-info-title">
-                                                <label>침대 :</label>
-                                                <span>{room.room_bed}</span>
-                                            </div>
-                                            <div className="room-content-info-title">
-                                                <label>평수 :</label>
-                                                <span>{room.room_size}</span>
-                                            </div>
-                                            <div className="room-content-info-title">
-                                                <label>상세내용 :</label>
-                                                <span>{room.room_detail}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                );
-                            })
-                        ) : (
-                            <div>객실 정보가 없습니다.</div>
-                        )}
-                    </div>
+                <div style={{width:"200px",margin:"0 auto",height:"50px"}}>
+                    <h1 style={{margin:"0",padding:"0"}}>객실관리</h1>
                 </div>
+                <RoomList roomImg={roomImg} roomList={roomList} check={check}/>
+                {/* 
+                남은 기능 
+                    - 객실 페이지네이션
+                    - 객실 수정,삭제,조회
+                        - 조회
+                            - 객실을 누르면 상세보기 Modal이 띄워짐.
+                            - 이미지는 List로 전체로 가져오고 페이지네이션 적용.
+                            - 객실 정보가 조회됨.
+                        - 수정
+                            - 객실을 누르면 상세보기 Modal이 띄워짐.
+                            - 수정할 객실 정보를 수정 후 저장하기 버튼을 누르면 완료.
+                        - 삭제
+                            - 객실을 누르면 상세보기 Modal이 띄워짐.
+                            - 삭제하기 버튼을 누르면 객실이 삭제됨.
+                            - Modal외에 체크박스 여러개를 선택 후 삭제 버튼을 누르면 삭제됨.
+                        - 대실 등록
+                        - 숙박 등록
+                 */}
 
             </div>
 

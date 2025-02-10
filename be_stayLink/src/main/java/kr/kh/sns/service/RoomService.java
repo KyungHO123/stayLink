@@ -14,7 +14,9 @@ public interface RoomService {
 
     boolean uploadFiles(MultipartFile[] files, int lod);
 
-    FileVO getRoomFile(RoomVO room);
+    List<FileVO> getRoomFile(RoomVO room);
 
     List<RoomVO> getLodRoom(LodVO lod);
+
+    boolean deleteFile(int file, RoomVO room);
 }
