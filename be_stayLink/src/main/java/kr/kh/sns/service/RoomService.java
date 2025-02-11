@@ -35,4 +35,6 @@ public interface RoomService {
     boolean roomFileDelete(int fileFkNum);
 
     boolean stayUpdate(StayRoomVO stay);
+
+    boolean dayUpdate(DayRoomVO day);
 }

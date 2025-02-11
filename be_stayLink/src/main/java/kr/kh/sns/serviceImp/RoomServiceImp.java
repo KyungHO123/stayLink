@@ -158,4 +158,11 @@ public class RoomServiceImp implements RoomService {
             return false;
         return roomDao.stayUpdate(stay);
     }
+
+    @Override
+    public boolean dayUpdate(DayRoomVO day) {
+        if (day == null)
+        return false;
+        return roomDao.dayUpdate(day);
+    }
 }

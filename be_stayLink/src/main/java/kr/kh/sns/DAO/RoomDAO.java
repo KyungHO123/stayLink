@@ -41,4 +41,6 @@ public interface RoomDAO {
     boolean deleteFileList(@Param("num")int fileFkNum);
 
     boolean stayUpdate(@Param("stay")StayRoomVO stay);
+
+    boolean dayUpdate(@Param("day")DayRoomVO day);
 }

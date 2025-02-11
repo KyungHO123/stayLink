@@ -250,6 +250,7 @@ public class RoomController {
         map.put("res", ok);
         return ResponseEntity.ok(map);
     }
+
     @PostMapping("/stay/update")
     public ResponseEntity<Map<String, Object>> stayUpdate(@RequestBody StayRoomVO stay){
         Map<String, Object> map = new HashMap<>();
@@ -258,5 +259,12 @@ public class RoomController {
         return ResponseEntity.ok(map);
     }
 
+    @PostMapping("/day/update")
+    public ResponseEntity<Map<String, Object>> dayUpdate(@RequestBody DayRoomVO day) {
+        Map<String, Object> map = new HashMap<>();
+        boolean res = roomService.dayUpdate(day);
+        map.put("res", res);
+        return ResponseEntity.ok(map);
+    }
 
 }

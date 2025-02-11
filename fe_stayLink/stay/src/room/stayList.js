@@ -34,6 +34,11 @@ function StayList({ setStayRoom }) {
     const closeModal = () => {
         setStayListModal(false)
     }
+    const handleDelete =(stay)=>{
+        if(window.confirm("등록된 숙박 객실을 삭제하시겠습니까?")){
+            alert("삭제 되었습니다.")
+        }
+    }
 
     return (
         <div>
@@ -65,7 +70,7 @@ function StayList({ setStayRoom }) {
                                 <button onClick={() => openStayListModal(stay)}>
                                     수정
                                 </button>
-                                <button>삭제</button>
+                                <button onClick={() =>handleDelete(stay)}>삭제</button>
                             </td>
                         </tr>
                     ))}

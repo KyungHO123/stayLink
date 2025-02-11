@@ -1,23 +1,21 @@
-import axios from "axios";
 import React, { useState } from "react";
+import axios from "axios";
 
-function StayListModal({ closeModal, stayDetail }) {
-
-    const [editedStayDetail, setEditedStayDetail] = useState({ ...stayDetail });
-    // 입력값 변경 핸들러
+function DayListModal({ closeModal, dayDetail }) {
+    const [editedDayDetail, setEditedDayDetail] = useState({ ...dayDetail });
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setEditedStayDetail(prev => {
+        setEditedDayDetail(prev => {
             const updatedStayRoom = {
                 ...prev,
                 [name]: value,
             };
-            if (updatedStayRoom.stay_price && updatedStayRoom.stay_discount) {
-                const price = parseFloat(updatedStayRoom.stay_price);
-                const discount = parseFloat(updatedStayRoom.stay_discount);
+            if (updatedStayRoom.day_price && updatedStayRoom.day_discount) {
+                const price = parseFloat(updatedStayRoom.day_price);
+                const discount = parseFloat(updatedStayRoom.day_discount);
                 if (!isNaN(price) && !isNaN(discount) && price > 0 && discount >= 0) {
                     const discountedPrice = price - (price * (discount / 100));
-                    updatedStayRoom.stay_disc = discountedPrice.toFixed(0)
+                    updatedStayRoom.day_disc = discountedPrice.toFixed(0)
                 }
             }
             return updatedStayRoom;
@@ -33,21 +31,24 @@ function StayListModal({ closeModal, stayDetail }) {
 
         return timeString.replace(",", ":").slice(0, 5);
     };
-    const handleSave = async () => {
-        if (!editedStayDetail) {
-            alert("모든 항목을 입력해주세요.");
+    const handleSave =async ()=>{
+        if(!editedDayDetail){
+            alert("모든 정보를 입력해주세요.");
             return;
         }
-        if (editedStayDetail.stay_count > editedStayDetail.room.romm_count) {
-            alert(`객실 수는 최대${editedStayDetail.room.romm_count}개 까지 가능합니다.`)
+        if(editedDayDetail.day_start > editedDayDetail.day_end){
+            alert("시작시간은 종료시간보다 작아야 합니다.");
             return;
         }
-        if(editedStayDetail.stay_discount < 0 && editedStayDetail.stay_discount > 100){
-            alert("할인율을 제대로 입력해주세요.\n(0~100)")
+        if (editedDayDetail.day_discount < 0 || editedDayDetail.day_discount > 100) {
+            alert("할인율은 0 이상 100 이하로 입력해야 합니다.");
             return;
         }
-
-        const res = await axios.post("/api/stay/update", editedStayDetail, {
+        if(editedDayDetail.day_count > editedDayDetail.room.room_count){
+            alert(`객실 수는 최대 ${editedDayDetail.room.room_count}개 까지 가능합니다.`);
+            return;
+        }
+        const res = await axios.post("/api/day/update", editedDayDetail, {
             headers: {
                 "Content-Type": "application/json"
             }
@@ -58,40 +59,38 @@ function StayListModal({ closeModal, stayDetail }) {
             closeModal();
         }
     }
-
-
     return (
         <div className="stayDetail-modal-overlay">
             <div className="stayDetail-modal-content">
-                <h2 className="stayDetail-modal-title">숙박 객실 정보 수정</h2>
+                <h2 className="stayDetail-modal-title">대실 객실 정보 수정</h2>
                 <div className="stayDetail-modal-title-box">
                     <label className="stayDetail-label">객실명</label>
                     <input
-                        type="text" 
+                        type="text"
                         readOnly
                         name="room_name"
                         className="stayDetail-input"
-                        value={editedStayDetail.room?.room_name || ""}
+                        value={editedDayDetail.room?.room_name || ""}
                         onChange={handleChange}
                     />
                 </div>
                 <div className="stayDetail-modal-title-box">
-                    <label className="stayDetail-label">체크인</label>
+                    <label className="stayDetail-label">시작시간</label>
                     <input
                         type="time"
-                        name="stay_in"
+                        name="day_start"
                         className="stayDetail-input"
-                        value={formatTime(editedStayDetail.stay_in)}
+                        value={formatTime(editedDayDetail.day_start)}
                         onChange={handleChange}
                     />
                 </div>
                 <div className="stayDetail-modal-title-box">
-                    <label className="stayDetail-label">체크아웃</label>
+                    <label className="stayDetail-label">종료시간</label>
                     <input
                         type="time"
-                        name="stay_out"
+                        name="day_end"
                         className="stayDetail-input"
-                        value={formatTime(editedStayDetail.stay_out)}
+                        value={formatTime(editedDayDetail.day_end)}
                         onChange={handleChange}
                     />
                 </div>
@@ -99,9 +98,9 @@ function StayListModal({ closeModal, stayDetail }) {
                     <label className="stayDetail-label">금액</label>
                     <input
                         type="number"
-                        name="stay_price"
+                        name="day_price"
                         className="stayDetail-input"
-                        value={editedStayDetail.stay_price}
+                        value={editedDayDetail.day_price}
                         onChange={handleChange}
                         placeholder="금액을 입력하세요."
                     />
@@ -110,9 +109,9 @@ function StayListModal({ closeModal, stayDetail }) {
                     <label className="stayDetail-label">할인율</label>
                     <input
                         type="number"
-                        name="stay_discount"
+                        name="day_discount"
                         className="stayDetail-input"
-                        value={editedStayDetail.stay_discount || ""}
+                        value={editedDayDetail.day_discount || ""}
                         onChange={handleChange}
                     />
                 </div>
@@ -121,9 +120,9 @@ function StayListModal({ closeModal, stayDetail }) {
                     <input
                         readOnly
                         type="number"
-                        name="stay_disc"
+                        name="day_disc"
                         className="stayDetail-input"
-                        value={editedStayDetail.stay_disc || ""}
+                        value={editedDayDetail.day_disc || ""}
                         onChange={handleChange}
                     />
                 </div>
@@ -131,9 +130,9 @@ function StayListModal({ closeModal, stayDetail }) {
                     <label className="stayDetail-label">객실 수</label>
                     <input
                         type="number"
-                        name="stay_count"
+                        name="day_count"
                         className="stayDetail-input"
-                        value={editedStayDetail.stay_count || ""}
+                        value={editedDayDetail.day_count || ""}
                         onChange={handleChange}
                     />
                 </div>
@@ -146,7 +145,6 @@ function StayListModal({ closeModal, stayDetail }) {
                 </div>
             </div>
         </div>
-    );
+    )
 }
-
-export default StayListModal;
+export default DayListModal;

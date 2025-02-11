@@ -1,9 +1,23 @@
-import React,{useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import DayDetailModal from './dayListModal';
 
-function DayList({setDayRoom}) {
+function DayList({ setDayRoom }) {
     const [dayRooms, setDayRooms] = useState([]);
-
+    const [dayListModal, setDayListModal] = useState(false);
+    const [dayDetail, setDayDetail] = useState(null);
+    const openDayListModal = (day) => {
+        setDayDetail(day)
+        setDayListModal(true);
+    }
+    const closeModal = () => {
+        setDayListModal(false)
+    }
+    const handleDelete = (day) => {
+        if (window.confirm("등록된 숙박 객실을 삭제하시겠습니까?")) {
+            alert("삭제 되었습니다.")
+        }
+    }
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -18,7 +32,7 @@ function DayList({setDayRoom}) {
                     setDayRoom(stayRoomArray);
                 }
             } catch (error) {
-                console.error("숙박 데이터 가져오기 실패:", error);
+                console.error("대실 데이터 가져오기 실패:", error);
             }
         };
 
@@ -54,15 +68,16 @@ function DayList({setDayRoom}) {
                             <td>{day.day_disc}원</td>
                             <td>{day.day_count}개</td>
                             <td>
-                                <button onClick={() => setDayRoom(prev => [...prev, day.day_room_num])}>
+                                <button onClick={() => openDayListModal(day)}>
                                     수정
                                 </button>
-                                <button>삭제</button>
+                                <button onClick={() => handleDelete(day)}>삭제</button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
+            {dayListModal&&(<DayDetailModal closeModal={closeModal} dayDetail={dayDetail}/>)}
         </div>
     );
 }
