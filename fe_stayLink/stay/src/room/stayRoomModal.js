@@ -53,6 +53,7 @@ function StayRoomModal({ room, closeModal }) {
                 },
             });
             if (res.status === 200) {
+                window.location.reload();
                 setStayRoom(true);
                 alert("숙박 정보가 저장되었습니다.");
                 closeModal();  // 저장 후 모달 닫기

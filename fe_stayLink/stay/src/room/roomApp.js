@@ -7,8 +7,23 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
 function RoomApp() {
+{/* 
+                남은 기능 
+                객실
+                  - 객실 페이지네이션
+                  - 객실 상세페이지 이미지 페이지네이션
+                  - 객실 삭제
+                숙박
+                  - 숙박 정보 수정
+                  - 숙박 정보 삭제
+                  ** 숙박 객실수 입력할 때 객실수보다 많게 입력하면 안되게 하기
+                대실
+                  - 대실 정보 수정
+                  - 대실 정보 삭제
+                  ** 대실 객실수 입력할 때 객실수보다 많게 입력하면 안되게 하기
+                */}
+
   const navigate = useNavigate();
-  // RoomVO의 각 필드에 대응하는 상태
   const [roomData, setRoomData] = useState({
     room_name: '',
     room_count: '',

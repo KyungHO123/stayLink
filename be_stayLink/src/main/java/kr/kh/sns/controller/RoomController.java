@@ -204,6 +204,7 @@ public class RoomController {
 
         return ResponseEntity.ok(map);
     }
+
     @GetMapping("/day/get")
     public ResponseEntity<Map<String, Object>> dayList(HttpSession session) {
         Map<String, Object> map = new HashMap<>();
@@ -224,6 +225,30 @@ public class RoomController {
         map.put("data", dayList);
         map.put("res", check);
 
+        return ResponseEntity.ok(map);
+    }
+
+    @PostMapping("/room/delete")
+    public ResponseEntity<Map<String, Object>> roomDelete(@RequestBody RoomVO room) {
+        Map<String, Object> map = new HashMap<>();
+        boolean res = roomService.roomDelete(room);
+        map.put("res", res);
+        return ResponseEntity.ok(map);
+    }
+
+    @PostMapping("/room/img/delete")
+    public ResponseEntity<Map<String, Object>> roomImgAllDelete(
+            @RequestParam("file_fk_num") int num) {
+        Map<String, Object> map = new HashMap<>();
+        List<FileVO> files = roomService.getFileList(num);
+        boolean ok = false;
+        for (FileVO file : files) {
+            boolean res = roomService.roomFileDelete(file.getFile_fk_num());
+            if (file != null)
+                ok = true;
+        }
+
+        map.put("res", ok);
         return ResponseEntity.ok(map);
     }
 

@@ -144,4 +144,13 @@
         select * from dayRoom join room on day_room_num = room_num where day_room_num = #{num}
     </select>
 
+    <delete id="roomDelete">
+        delete from room where room_num = #{num}
+    </delete>
+    <select id="getFileList" resultType="kr.kh.sns.model.vo.FileVO">
+        select * from file where file_fk_num = #{num}
+    </select>
+    <delete id="deleteFileList">
+        delete from file where file_fk_num = #{num}
+    </delete>
 </mapper>

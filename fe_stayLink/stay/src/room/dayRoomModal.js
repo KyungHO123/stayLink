@@ -75,6 +75,7 @@ function DayRoomModal({ room, closeModal, setDayRoom }) {
             });
             if (res.status === 200) {
                 setDayRoom(true)
+                window.location.reload();
                 alert("대실 정보가 저장되었습니다.");
                 closeModal();
             }

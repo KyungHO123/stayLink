@@ -21,10 +21,10 @@ function RoomDetail({ room, closeModal, roomImg, handleRoomUpdate }) {
     const handleImageChange = (e) => {
         const files = Array.from(e.target.files); // 파일 배열로 변환
         const imageUrls = files.map(file => URL.createObjectURL(file)); // 이미지 미리보기 URL 생성
-    
+
         // 미리보기 URL을 상태에 저장
         setImagePreviews(prevPreviews => [...prevPreviews, ...imageUrls]);
-    
+
         // imageFiles에 파일 객체를 추가
         const newImageFiles = [...imageFiles];
         files.forEach((file, index) => {
@@ -36,7 +36,7 @@ function RoomDetail({ room, closeModal, roomImg, handleRoomUpdate }) {
             reader.readAsDataURL(file); // 파일을 DataURL로 읽어들임
         });
     };
-    
+
 
     // 이미지 삭제 핸들러
     const handleImageDelete = async (e, index, isUpload = false, img) => {
@@ -98,6 +98,36 @@ function RoomDetail({ room, closeModal, roomImg, handleRoomUpdate }) {
 
         }
     };
+    //객실 삭제 handle
+    const handleDelete = async () => {
+        if (window.confirm("객실을 삭제하시겠습니까?\n삭제시 등록한 이미지도 함께 삭제 됩니다.")) {
+            const res = await axios.post("/api/room/delete", roomData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (res.status === 200) {
+                const formData = new FormData();
+
+                // 이미지 파일이 있을 경우
+                if (imageFiles.length > 0) {
+                    imageFiles.forEach((file) => {
+                        formData.append("files", file);
+                    });
+                    formData.append('file_fk_num', roomData.room_num);
+                    await axios.post("/api/room/img/delete", formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        },
+                    })
+                }
+                window.location.reload(); // 성공적으로 업로드 후 새로고침
+                alert("객실이 삭제 되었습니다.");
+                closeModal();
+            }
+        }
+
+    }
 
 
     return (
@@ -235,6 +265,9 @@ function RoomDetail({ room, closeModal, roomImg, handleRoomUpdate }) {
                     </div>
                     <div className="room-modal-info-title">
                         <button onClick={handleSave}>저장하기</button>
+                    </div>
+                    <div className="room-modal-info-title">
+                        <button onClick={handleDelete}>삭제하기</button>
                     </div>
                 </div>
 

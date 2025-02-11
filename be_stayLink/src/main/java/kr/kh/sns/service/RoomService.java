@@ -27,4 +27,10 @@ public interface RoomService {
     List<StayRoomVO> getStayList(RoomVO room);
 
     List<DayRoomVO> getDayList(RoomVO room);
+
+    boolean roomDelete(RoomVO room);
+
+    List<FileVO> getFileList(int num);
+
+    boolean roomFileDelete(int fileFkNum);
 }

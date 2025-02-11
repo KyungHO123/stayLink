@@ -79,7 +79,7 @@ public class RoomServiceImp implements RoomService {
 
     @Override
     public boolean deleteFile(int file_num, RoomVO room) {
-        if ( room == null)
+        if (room == null)
             return false;
         FileVO fileDb = roomDao.getDeleteFile(file_num);
         if (fileDb == null || fileDb.getFile_fk_num() != room.getRoom_num()) {
@@ -100,7 +100,7 @@ public class RoomServiceImp implements RoomService {
 
     @Override
     public boolean updateRoom(RoomVO room) {
-        if(room == null){
+        if (room == null) {
             return false;
         }
         return roomDao.updateRoom(room);
@@ -108,8 +108,8 @@ public class RoomServiceImp implements RoomService {
 
     @Override
     public boolean dayInsert(DayRoomVO day) {
-        if(day == null)
-        return false;
+        if (day == null)
+            return false;
 
         return roomDao.dayInsert(day);
     }
@@ -117,7 +117,7 @@ public class RoomServiceImp implements RoomService {
     @Override
     public boolean stayInsert(StayRoomVO stay) {
         if (stay == null)
-        return false;
+            return false;
         return roomDao.stayInsert(stay);
     }
 
@@ -133,5 +133,22 @@ public class RoomServiceImp implements RoomService {
         if (room == null)
             return null;
         return roomDao.getDayList(room.getRoom_num());
+    }
+
+    @Override
+    public boolean roomDelete(RoomVO room) {
+        if (room == null)
+            return false;
+        return roomDao.roomDelete(room.getRoom_num());
+    }
+
+    @Override
+    public List<FileVO> getFileList(int num) {
+        return roomDao.getFileList(num);
+    }
+
+    @Override
+    public boolean roomFileDelete(int fileFkNum) {
+        return roomDao.deleteFileList(fileFkNum);
     }
 }

@@ -33,4 +33,10 @@ public interface RoomDAO {
     List<StayRoomVO> getStayList(@Param("num")int roomNum);
 
     List<DayRoomVO> getDayList(@Param("num")int roomNum);
+
+    boolean roomDelete(@Param("num")int roomNum);
+
+    List<FileVO> getFileList(@Param("num")int num);
+
+    boolean deleteFileList(@Param("num")int fileFkNum);
 }
