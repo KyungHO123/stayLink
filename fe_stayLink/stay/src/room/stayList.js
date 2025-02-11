@@ -1,8 +1,11 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import StayDetailModal from "./stayListModal";
 
 function StayList({ setStayRoom }) {
     const [stayRooms, setStayRooms] = useState([]);
+    const [stayListModal, setStayListModal] = useState(false);
+    const [stayDetail, setStayDetail] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -13,7 +16,7 @@ function StayList({ setStayRoom }) {
                     const filteredStays = res.data.data.filter(stay => Object.keys(stay).length > 0);
                     setStayRooms(filteredStays);
 
-                    // 🛠 stayRoom을 배열 형식으로 업데이트하도록 수정
+                    // stayRoom을 배열 형식으로 업데이트하도록 수정
                     const stayRoomArray = filteredStays.map(stay => stay.stay_room_num);
                     setStayRoom(stayRoomArray);
                 }
@@ -24,6 +27,13 @@ function StayList({ setStayRoom }) {
 
         fetchData();
     }, [setStayRoom]);
+    const openStayListModal = (stay) => {
+        setStayDetail(stay)
+        setStayListModal(true);
+    }
+    const closeModal = () => {
+        setStayListModal(false)
+    }
 
     return (
         <div>
@@ -52,7 +62,7 @@ function StayList({ setStayRoom }) {
                             <td>{stay.stay_disc}원</td>
                             <td>{stay.stay_count}개</td>
                             <td>
-                                <button onClick={() => setStayRoom(prev => [...prev, stay.stay_room_num])}>
+                                <button onClick={() => openStayListModal(stay)}>
                                     수정
                                 </button>
                                 <button>삭제</button>
@@ -61,6 +71,7 @@ function StayList({ setStayRoom }) {
                     ))}
                 </tbody>
             </table>
+            {stayListModal && (<StayDetailModal closeModal={closeModal} stayDetail={stayDetail} />)}
         </div>
     );
 }

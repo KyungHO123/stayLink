@@ -151,4 +151,11 @@ public class RoomServiceImp implements RoomService {
     public boolean roomFileDelete(int fileFkNum) {
         return roomDao.deleteFileList(fileFkNum);
     }
+
+    @Override
+    public boolean stayUpdate(StayRoomVO stay) {
+        if (stay == null)
+            return false;
+        return roomDao.stayUpdate(stay);
+    }
 }

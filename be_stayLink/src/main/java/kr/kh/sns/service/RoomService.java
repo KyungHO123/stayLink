@@ -33,4 +33,6 @@ public interface RoomService {
     List<FileVO> getFileList(int num);
 
     boolean roomFileDelete(int fileFkNum);
+
+    boolean stayUpdate(StayRoomVO stay);
 }

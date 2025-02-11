@@ -153,4 +153,16 @@
     <delete id="deleteFileList">
         delete from file where file_fk_num = #{num}
     </delete>
+    <update id="stayUpdate">
+        UPDATE stayRoom
+        SET stay_in = #{stay.stay_in},
+        stay_out = #{stay.stay_out},
+        stay_discount = #{stay.stay_discount},
+        stay_price = #{stay.stay_price},
+        stay_disc = #{stay.stay_disc},
+        stay_count = #{stay.stay_count},
+        stay_room_num = #{stay.stay_room_num}
+        WHERE stay_num = #{stay.stay_num}
+    </update>
+
 </mapper>

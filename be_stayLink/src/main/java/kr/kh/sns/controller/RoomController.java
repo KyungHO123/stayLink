@@ -247,9 +247,16 @@ public class RoomController {
             if (file != null)
                 ok = true;
         }
-
         map.put("res", ok);
         return ResponseEntity.ok(map);
     }
+    @PostMapping("/stay/update")
+    public ResponseEntity<Map<String, Object>> stayUpdate(@RequestBody StayRoomVO stay){
+        Map<String, Object> map = new HashMap<>();
+        boolean res = roomService.stayUpdate(stay);
+        map.put("res", res);
+        return ResponseEntity.ok(map);
+    }
+
 
 }

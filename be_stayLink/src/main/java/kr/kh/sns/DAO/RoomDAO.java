@@ -39,4 +39,6 @@ public interface RoomDAO {
     List<FileVO> getFileList(@Param("num")int num);
 
     boolean deleteFileList(@Param("num")int fileFkNum);
+
+    boolean stayUpdate(@Param("stay")StayRoomVO stay);
 }
