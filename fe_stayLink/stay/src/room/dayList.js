@@ -13,8 +13,22 @@ function DayList({ setDayRoom }) {
     const closeModal = () => {
         setDayListModal(false)
     }
-    const handleDelete = (day) => {
+    const handleDelete = async (day) => {
         if (window.confirm("등록된 숙박 객실을 삭제하시겠습니까?")) {
+            try {
+                const res = await axios.post("/api/day/delete", day, {
+                    withCredentials: true
+                });
+                if (res.status === 200) {
+                    setDayRooms(prevDayRooms => prevDayRooms.filter(d => d !== day));
+                } else {
+                    alert("삭제에 실패했습니다.");
+                }
+            } catch (error) {
+                console.error("삭제 요청 실패:", error);
+                alert("삭제 요청 중 오류가 발생했습니다.");
+            }
+            window.location.reload();
             alert("삭제 되었습니다.")
         }
     }
@@ -57,27 +71,41 @@ function DayList({ setDayRoom }) {
                     </tr>
                 </thead>
                 <tbody className="stay-tbody">
-                    {dayRooms.map((day, index) => (
-                        <tr key={index}>
-                            <td>{day.room?.room_name}</td>
-                            <td>{day.day_start}</td>
-                            <td>{day.day_end}</td>
-                            <td>{day.day_max}시간</td>
-                            <td>{day.day_price}원</td>
-                            <td>{day.day_discount}%</td>
-                            <td>{day.day_disc}원</td>
-                            <td>{day.day_count}개</td>
-                            <td>
-                                <button onClick={() => openDayListModal(day)}>
-                                    수정
-                                </button>
-                                <button onClick={() => handleDelete(day)}>삭제</button>
+                    {dayRooms.length > 0 ? (
+                        dayRooms.map((day, index) => (
+                            <tr key={index}>
+                                <td>{day.room?.room_name}</td>
+                                <td>{day.day_start}</td>
+                                <td>{day.day_end}</td>
+                                <td>{day.day_max}시간</td>
+                                <td>{day.day_price}원</td>
+                                <td>{day.day_discount}%</td>
+                                <td>{day.day_disc}원</td>
+                                <td>{day.day_count}개</td>
+                                <td>
+                                    <button onClick={() => openDayListModal(day)}>
+                                        수정
+                                    </button>
+                                    <button onClick={() => handleDelete(day)}>삭제</button>
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td 
+                                style={{
+                                    color: "#ccc",
+                                    fontWeight: "bold",
+                                    fontSize: "24px",
+                                    textAlign: "center",
+                                }}>
+                                등록된 대실 객실이 없습니다.
                             </td>
                         </tr>
-                    ))}
+                    )}
                 </tbody>
             </table>
-            {dayListModal&&(<DayDetailModal closeModal={closeModal} dayDetail={dayDetail}/>)}
+            {dayListModal && (<DayDetailModal closeModal={closeModal} dayDetail={dayDetail} />)}
         </div>
     );
 }

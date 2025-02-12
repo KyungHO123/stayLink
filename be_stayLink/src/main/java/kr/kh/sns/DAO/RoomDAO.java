@@ -43,4 +43,8 @@ public interface RoomDAO {
     boolean stayUpdate(@Param("stay")StayRoomVO stay);
 
     boolean dayUpdate(@Param("day")DayRoomVO day);
+
+    boolean dayDelete(@Param("day")DayRoomVO day);
+
+    boolean stayDelete(@Param("stay")StayRoomVO stay);
 }

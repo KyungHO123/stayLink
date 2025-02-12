@@ -176,6 +176,12 @@
         day_end = #{day.day_end}
         WHERE day_num = #{day.day_num}
     </update>
+    <delete id="dayDelete">
+        delete from dayRoom where day_num = #{day.day_num}
+    </delete>
+    <delete id="stayDelete">
+        delete from stayRoom where stay_num = #{stay.stay_num}
+    </delete>
 
 
 </mapper>

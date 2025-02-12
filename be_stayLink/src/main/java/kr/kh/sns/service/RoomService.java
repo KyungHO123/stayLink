@@ -37,4 +37,8 @@ public interface RoomService {
     boolean stayUpdate(StayRoomVO stay);
 
     boolean dayUpdate(DayRoomVO day);
+
+    boolean dayDelete(DayRoomVO day);
+
+    boolean stayDelete(StayRoomVO stay);
 }

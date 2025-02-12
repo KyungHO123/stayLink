@@ -34,8 +34,22 @@ function StayList({ setStayRoom }) {
     const closeModal = () => {
         setStayListModal(false)
     }
-    const handleDelete =(stay)=>{
-        if(window.confirm("등록된 숙박 객실을 삭제하시겠습니까?")){
+    const handleDelete = async (stay) => {
+        if (window.confirm("등록된 숙박 객실을 삭제하시겠습니까?")) {
+            try {
+                const res = await axios.post("/api/stay/delete", stay, {
+                    withCredentials: true
+                });
+                if (res.status === 200) {
+                    setStayRooms(prev => prev.filter(d => d !== stay));
+                } else {
+                    alert("삭제에 실패했습니다.");
+                }
+            } catch (error) {
+                console.error("삭제 요청 실패:", error);
+                alert("삭제 요청 중 오류가 발생했습니다.");
+            }
+            window.location.reload();
             alert("삭제 되었습니다.")
         }
     }
@@ -70,7 +84,7 @@ function StayList({ setStayRoom }) {
                                 <button onClick={() => openStayListModal(stay)}>
                                     수정
                                 </button>
-                                <button onClick={() =>handleDelete(stay)}>삭제</button>
+                                <button onClick={() => handleDelete(stay)}>삭제</button>
                             </td>
                         </tr>
                     ))}

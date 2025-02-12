@@ -266,5 +266,20 @@ public class RoomController {
         map.put("res", res);
         return ResponseEntity.ok(map);
     }
+    @PostMapping("/day/delete")
+    public ResponseEntity<Map<String, Object>> dayDelete(@RequestBody DayRoomVO day) {
+        Map<String, Object> map = new HashMap<>();
+        boolean res = roomService.dayDelete(day);
+        map.put("res", res);
+        return ResponseEntity.ok(map);
+    }
+
+    @PostMapping("/stay/delete")
+    public ResponseEntity<Map<String, Object>> stayDelete(@RequestBody StayRoomVO stay) {
+        Map<String, Object> map = new HashMap<>();
+        boolean res = roomService.stayDelete(stay);
+        map.put("res", res);
+        return ResponseEntity.ok(map);
+    }
 
 }
